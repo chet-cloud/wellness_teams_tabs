@@ -1,0 +1,175 @@
+@import
+    'vars',
+    'stream',
+    'header',
+    'footer';
+
+
+// Sign In screen
+h1, h2, h3, h5{
+    font-weight: 700;
+}
+
+p{
+    color: $p-col;
+    font-size: initial;
+    font-weight: initial;
+}
+
+h4{
+    margin: 0;
+}
+
+.box{
+    padding: 50px 20px 160px;
+    background-color: $main-color;
+}
+
+
+.cat-box{
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 25px;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 2px rgba(0, 0, 0, 0.1);
+
+    .sticker-box{
+        width: 170px;
+        height: 170px;
+        border-radius: 25px;
+        margin-right: 40px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        padding: 20px;
+
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    h4{
+        p{
+            margin-top: 10px;
+        }
+    }
+
+    .heart-container{
+        position: absolute;
+        right: 50px;
+        background-color: #fff;
+    }
+}
+
+.avatar{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+}
+
+.logo{
+    width: 154px;
+    height: 154px;
+}
+
+.welcoming{
+    padding-top: 10px;
+    height: 100%;
+    overflow-y: hidden;
+
+    .welcome-box{
+        margin-top: 20px;
+        max-width: 400px;
+        border-radius: 20px;
+        background-color: #fff;
+        padding: 50px 30px 20px;
+        text-align: center;
+    
+        img{
+            width: 100%;
+    
+        }
+    
+        h2{
+            margin: 30px 0;
+        }
+    }
+}
+  
+.lighter{
+font-weight: 100;
+}
+
+@media screen and (max-width: 767px) {
+    .container.box{
+        padding-top: 40px;
+        max-width: 100% !important;
+    }
+
+    .sub-box{
+        h2{
+            font-size: 20px;
+        }
+    }
+
+    h4{
+        font-size: 20px;
+    }
+
+    p{
+        font-size: 13px;
+    }
+
+    .avatar{
+        width: 69px;
+        height: 69px;
+        margin-right: 10px;
+    }
+
+    .cat-box{
+        padding: 15px;
+
+        .sticker-box{
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+        }
+
+        .heart-container{
+            right: 30px;
+
+            svg{
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .cat-box{
+        h4{
+            font-size: 16px !important;
+
+            p{
+                font-size: 12px;
+            }
+        }
+
+        .sticker-box{
+            width: 100px;
+            height: 100px;
+        }
+
+        
+        .heart-container{
+            right: 15px;
+        }
+    }
+}

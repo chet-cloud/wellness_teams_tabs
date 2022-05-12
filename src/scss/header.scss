@@ -1,0 +1,35 @@
+@import
+    'vars';
+
+.sub-box{
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+    position: relative;
+
+    &.frow{
+       flex-direction: row; 
+    }
+
+    h2{
+        margin: 0;
+    }
+}
+
+.muscle-popup-content{
+    text-align: center;
+
+    p{
+        margin: 0;
+    }
+}
+
+.streak{
+    position: absolute;
+    right: 50px;
+
+    svg{
+        width: 60px;
+        height: 60px;
+    }
+}
