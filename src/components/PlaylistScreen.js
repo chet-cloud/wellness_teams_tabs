@@ -55,12 +55,12 @@ function PlaylistScreen(props) {
     }, [])
 
     
-    if(loaded == 1){
+    if(loaded === 1){
         loadVids();
         setLoaded(0);
     }
 
-    if(vids == null){
+    if(vids === null){
         return(
             <div>
                 <Container className='d-flex justify-content-center align-items-center' style={{height: '100vh'}}>
@@ -83,7 +83,7 @@ function PlaylistScreen(props) {
                             <Row>
                                 {vids.length > 0 &&
                                     vids.map((vid) => {
-                                        if(loaded == 1){
+                                        if(loaded === 1){
                                             loadVids();
                                             setLoaded(0);
                                         }
@@ -146,7 +146,7 @@ function PlaylistScreen(props) {
                                         }
                                     })
                                 }
-                                {vids.length == 0 &&
+                                {vids.length === 0 &&
                                     <Col className='col-12'>
                                         <div className='cat-box'>
                                             <p>You don't have any saved videos.</p>
