@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 import { useState, useEffect, useRef } from 'react';
-import Duration from './lib/Duration';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faMeh } from '@fortawesome/free-solid-svg-icons';
 import { getVideo, getHis, addHistory, updateHistory, checkHis, addCoin } from './lib/api';
@@ -16,7 +15,6 @@ import DoneIcon from '../img/done-icon.png';
 
 function VideoPlayer(props) {
     const [played, setPlayed] = useState(0);
-    const [dura, setDuration] = useState(0);
     const [vids, setVids] = useState([]);
     const [history, setHistory] = useState([]);
     const [loaded, setLoaded] = useState(0);
@@ -30,6 +28,7 @@ function VideoPlayer(props) {
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(0);
     const vid_player = useRef(null);
+    const userId = props.userId;
 
     // Video Player Event Handler
     const handleProgress = value => {
@@ -47,10 +46,6 @@ function VideoPlayer(props) {
             }
         }
     }
-    
-    const handleDuration = (duration) => {
-        setDuration( duration)
-    }
 
     const handleEnd = () => {
         setOpen(o => !o);
@@ -66,31 +61,14 @@ function VideoPlayer(props) {
         vid_player.current.seekTo(parseFloat(e.target.value));
     }
     // Handle api data fetching
-    function loadVids(){
-        checkHis(props.userId).then(({data}) => {
-            var check = data.data;
-            if(check.length > 0){
-                getVideo(props.user, 'visited').then(({data}) => {
-                    console.log(data.data);
-                    setVids(data.data[0]);
-                });
-            }else{
-                getVideo(props.user).then(({data}) => {
-                    setVids(data.data[0]);
-                    console.log(data.data);
-                    var check = data.data[0];
-                    addEntry(props.userId, check.id);
-                });
-            }
-        });
-    }
+    
 
     function addEntry(userId, vidId){
         console.log(vidId);
         getHis(userId, vidId).then(({data}) => {
             var check = data.data;
             console.log(data.data);
-            if(check.length == 0){
+            if(check.length === 0){
                 addHistory(userId, vidId);
                 setLoaded(0);
                 console.log('added');
@@ -135,10 +113,29 @@ function VideoPlayer(props) {
     }
 
     useEffect(() => {
-        loadVids();
-    }, [])
+        function loadVids(){
+            checkHis(userId).then(({data}) => {
+                var check = data.data;
+                if(check.length > 0){
+                    getVideo(userId, 'visited').then(({data}) => {
+                        console.log(data.data);
+                        setVids(data.data[0]);
+                    });
+                }else{
+                    getVideo(userId).then(({data}) => {
+                        setVids(data.data[0]);
+                        console.log(data.data);
+                        var check = data.data[0];
+                        addEntry(userId, check.id);
+                    });
+                }
+            });
+        }
 
-    if(typeof(vids.attributes) == 'undefined'){
+        loadVids();
+    }, [userId])
+
+    if(typeof(vids.attributes) === 'undefined'){
         return(
             <div>
                 <Container className='d-flex justify-content-center align-items-center'>
@@ -151,7 +148,7 @@ function VideoPlayer(props) {
             </div>
         )
     }else{
-        if(loaded == 0){
+        if(loaded === 0){
             loadHis(props.userId, vids.id);
             console.log(history);
             return(
@@ -166,15 +163,15 @@ function VideoPlayer(props) {
                 </div>
             )
         }else{
-            if(loaded == 2){
-                setTimeout(() => loadHis(props.userId, vids.id), 2000);
+            if(loaded === 2){
+                setTimeout(() => loadHis(userId, vids.id), 2000);
                 console.log(likeVal);
             }
             var tags = "";
             if (vids.attributes.tags.data != null) {
                 var i = 1;
                 var tag_list = vids.attributes.tags.data;
-                tag_list.map(tag => {
+                tag_list.forEach(tag => {
                     tags += `${tag.attributes.name}`;
                     if(tag_list.length > i){
                         tags += ' • ';
@@ -183,7 +180,7 @@ function VideoPlayer(props) {
                 })
             } 
             var video_url = "";
-            if(vids.attributes.cdn_url == ""){
+            if(vids.attributes.cdn_url === ""){
                 video_url = vids.attributes.url;
             }else{
                 video_url = vids.attributes.cdn_url;
@@ -194,7 +191,6 @@ function VideoPlayer(props) {
                         <ReactPlayer url={video_url}
                         className='react-player'
                         onProgress={handleProgress}
-                        onDuration={handleDuration}
                         onEnded={handleEnd}
                         controls={false}
                         playing={true}
@@ -237,8 +233,6 @@ function VideoPlayer(props) {
                                     );
                                 })}
                             </div>
-                            {/* <p><Duration seconds={dura * played} /></p>
-                            <p>Duration: <Duration seconds={dura} /></p> */}
                         </div>
                     </div>
                     <Popup
