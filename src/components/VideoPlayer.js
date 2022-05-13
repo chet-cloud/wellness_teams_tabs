@@ -29,6 +29,7 @@ function VideoPlayer(props) {
     const [rate, setRate] = useReducer(setRating, initialState );
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(0);
+    const vid_player = useRef(null);
 
     // Video Player Event Handler
     const handleProgress = value => {
@@ -57,6 +58,13 @@ function VideoPlayer(props) {
         console.log("ended");
     }
 
+    const handleSeekChange = e => {
+        setPlayed(parseFloat(e.target.value));
+    }
+
+    const handleSeekMouseUp = e => {
+        vid_player.current.seekTo(parseFloat(e.target.value));
+    }
     // Handle api data fetching
     function loadVids(){
         checkHis(props.userId).then(({data}) => {
@@ -174,19 +182,34 @@ function VideoPlayer(props) {
                     i++;
                 })
             } 
+            var video_url = "";
+            if(vids.attributes.cdn_url == ""){
+                video_url = vids.attributes.url;
+            }else{
+                video_url = vids.attributes.cdn_url;
+            }
             return (
                 <div>
                     <div>
-                        <ReactPlayer url={vids.attributes.url} 
+                        <ReactPlayer url={video_url}
                         className='react-player'
                         onProgress={handleProgress}
                         onDuration={handleDuration}
                         onEnded={handleEnd}
-                        controls={true}
+                        controls={false}
+                        playing={true}
+                        ref={vid_player}
                         />
 
                         <div className='des-box'>
-                            <p className="prog-bar"><progress max={1} value={played} /></p>
+                            <p><input
+                                type='range' min={0} max={0.999999} step='any'
+                                value={played}
+                                onChange={handleSeekChange}
+                                onMouseUp={handleSeekMouseUp}
+                                className="prog-bar"
+                                style={{backgroundSize: `${played * 100}% 100%`}}
+                            /></p>
                             <div className="add-flex">
                                 <div className="name-box">
                                     <h4>{`${vids.attributes.category.data.attributes.name}`} 
