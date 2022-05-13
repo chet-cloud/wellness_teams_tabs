@@ -55,8 +55,6 @@ function MainScreen(props) {
     const [loaded, setLoaded] = useState(0);
     const userId = 2;
 
-    
-
     function updateCat(catId, liked, entry){
         dispatch({id: entry});
         likeCat(userId, catId, liked, entry);
@@ -72,7 +70,7 @@ function MainScreen(props) {
             getCat().then( ({data}) => {
                 setCats(data.data);
                 var test = data.data;
-                test.foreach((cat) => {
+                test.forEach((cat) => {
                     addPref(userId, cat.id);
                     loadPrefs();
                 });

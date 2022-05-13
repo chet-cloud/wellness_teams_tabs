@@ -94,7 +94,7 @@ function PlaylistScreen(props) {
                                             if (vid.attributes.video.data.attributes.tags.data != null) {
                                                 var i = 1;
                                                 var tag_list = vid.attributes.video.data.attributes.tags.data;
-                                                tag_list.map(tag => {
+                                                tag_list.forEach(tag => {
                                                     tags += `${tag.attributes.name}`;
                                                     if(tag_list.length > i){
                                                         tags += ' • ';
@@ -111,7 +111,7 @@ function PlaylistScreen(props) {
                                                                 : <img className='avatar' src={welcome} alt="placeholder thumb" />
                                                             } modal>
                                                                 <div className="vid-box">
-                                                                    {vid.attributes.video.data.attributes.cdn_url != "" ?
+                                                                    {vid.attributes.video.data.attributes.cdn_url !== "" ?
                                                                         <ReactPlayer url={vid.attributes.video.data.attributes.cdn_url} 
                                                                         className='react-player'
                                                                         />
