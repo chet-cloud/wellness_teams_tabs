@@ -13,7 +13,7 @@ function Header(props) {
     function loadStreak(userId){
         getCoins(userId).then(({data}) => {
             var check = data.data;
-            if(check.length == 0){
+            if(check.length === 0){
                 setStreak(0);
             }else{
                 setStreak(data.data[0].attributes.streaks);
@@ -23,7 +23,7 @@ function Header(props) {
 
     useEffect(() => {
         loadStreak(props.userId);
-    }, [])
+    }, [props.userId])
 
     if(streaks == null){
         return(
