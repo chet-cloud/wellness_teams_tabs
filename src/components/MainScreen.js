@@ -18,7 +18,7 @@ import "../scss/App.scss";
 import demoAva from '../img/demo-ava.png';
 import { addPref, getCat, getPref, likeCat } from './lib/api';
 import { useReducer } from 'react';
-import { initializeComponentRef } from '@uifabric/utilities';
+// import { initializeComponentRef } from '@uifabric/utilities';
 import Header from './lib/Header';
 
 function init(initialState){
@@ -31,7 +31,7 @@ const reducer = (state, action) => {
             return init(action.initialState);
         default:
             return state.map((pref) => {
-                if(pref.id == action.id){
+                if(pref.id === action.id){
                     return {...pref, attributes: { ...pref.attributes, liked: !pref.attributes.liked} }
                 } else{
                     return pref;
@@ -92,7 +92,7 @@ function MainScreen(props) {
                         <h4 className='mb-3'>Categories</h4>
                         <Row>
                             {cats.map((cat) => {
-                                if(loaded == 0){
+                                if(loaded === 0){
                                     setLoaded(1);
                                 }else{
                                     return(
@@ -108,7 +108,7 @@ function MainScreen(props) {
                                                         if(pref.attributes.category.data == null){
                                                             window.location.reload(false);
                                                         }else{
-                                                            if(pref.attributes.category.data.id == cat.id){
+                                                            if(pref.attributes.category.data.id === cat.id){
                                                                 var liked = pref.attributes.liked ? '#F06595' : '#B9C0CA';
                                                                 var action = pref.attributes.liked ? false : true;
                                                                 return (

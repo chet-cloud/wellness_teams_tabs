@@ -1,6 +1,10 @@
 // https://fluentsite.z22.web.core.windows.net/quick-start
 import { Provider, teamsTheme, Loader } from "@fluentui/react-northstar";
-import { HashRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, 
+  Redirect, 
+  Route, 
+  // Switch 
+} from "react-router-dom";
 import { useTeamsFx } from "@microsoft/teamsfx-react";
 import Privacy from "./Privacy";
 import Tab from "./Tab";
@@ -25,7 +29,7 @@ function App() {
   const userId = 2;
   getPref(userId).then(({data}) => {
     var check = data.data;
-    if(check.length == 0){
+    if(check.length === 0){
       visited = false;
     }else{
       visited = true;

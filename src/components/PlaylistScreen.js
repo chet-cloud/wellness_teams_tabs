@@ -21,12 +21,16 @@ import "../scss/playlist.scss";
 
 // Import images
 import demoAva from '../img/demo-ava.png';
-import { getHis, getSaved, updateHistory } from './lib/api';
-import { useReducer } from 'react';
+import { 
+    // getHis, 
+    getSaved, 
+    updateHistory 
+} from './lib/api';
+// import { useReducer } from 'react';
 import Header from './lib/Header';
 
 function PlaylistScreen(props) {
-    const imgUrlBase = 'http://localhost:1337/strapi';
+    // const imgUrlBase = 'http://localhost:1337/strapi';
     const { teamsfx } = useContext(TeamsFxContext);
     const { loading, data, error } = useData(async () => {
         if (teamsfx) {
@@ -56,12 +60,12 @@ function PlaylistScreen(props) {
     }, [])
 
     
-    if(loaded == 1){
+    if(loaded === 1){
         loadVids();
         setLoaded(0);
     }
 
-    if(vids == null){
+    if(vids === null){
         return(
             <div>
                 <Container className='d-flex justify-content-center align-items-center' style={{height: '100vh'}}>
@@ -84,7 +88,7 @@ function PlaylistScreen(props) {
                             <Row>
                                 {vids.length > 0 &&
                                     vids.map((vid) => {
-                                        if(loaded == 1){
+                                        if(loaded === 1){
                                             loadVids();
                                             setLoaded(0);
                                         }
@@ -141,7 +145,7 @@ function PlaylistScreen(props) {
                                         }
                                     })
                                 }
-                                {vids.length == 0 &&
+                                {vids.length === 0 &&
                                     <Col className='col-12'>
                                         <div className='cat-box'>
                                             <p>You don't have any saved videos.</p>
