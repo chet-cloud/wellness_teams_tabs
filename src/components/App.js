@@ -17,7 +17,6 @@ import withStartScreen from "./withStartScreen";
 import PlaylistScreen from "./PlaylistScreen";
 
 import {getPref} from './lib/api';
-import { useState } from "react";
 
 /**
  * The main app which handles the initialization and routing

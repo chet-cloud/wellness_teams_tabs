@@ -55,17 +55,7 @@ function MainScreen(props) {
     const [loaded, setLoaded] = useState(0);
     const userId = 2;
 
-    function loadCats(_callback){
-        getCat().then( ({data}) => {
-            setCats(data.data);
-            var test = data.data;
-            test.map((cat) => {
-                addPref(userId, cat.id);
-                loadPrefs();
-            });
-        });
-        _callback();
-    }
+    
 
     function updateCat(catId, liked, entry){
         dispatch({id: entry});
@@ -78,6 +68,18 @@ function MainScreen(props) {
     }
     
     useEffect(() => {
+        function loadCats(_callback){
+            getCat().then( ({data}) => {
+                setCats(data.data);
+                var test = data.data;
+                test.foreach((cat) => {
+                    addPref(userId, cat.id);
+                    loadPrefs();
+                });
+            });
+            _callback();
+        }
+
         loadCats(() => {
             loadPrefs();
         });
@@ -94,12 +96,13 @@ function MainScreen(props) {
                             {cats.map((cat) => {
                                 if(loaded === 0){
                                     setLoaded(1);
+                                    return false;
                                 }else{
                                     return(
                                         <Col className='col-12' key={cat.id}>
                                             <div className='cat-box'>
                                                 <div className='sticker-box' style={{backgroundColor: `${cat.attributes.background}`}}>
-                                                    <img src={cat.attributes.icon.data.attributes.url} />
+                                                    <img src={cat.attributes.icon.data.attributes.url} alt="Category icon"/>
                                                 </div>
                                                 <h4>{cat.attributes.name}<br />
                                                 <p>{cat.attributes.des}</p></h4>
@@ -107,6 +110,7 @@ function MainScreen(props) {
                                                     {prefs.map((pref) => {
                                                         if(pref.attributes.category.data == null){
                                                             window.location.reload(false);
+                                                            return false;
                                                         }else{
                                                             if(pref.attributes.category.data.id === cat.id){
                                                                 var liked = pref.attributes.liked ? '#F06595' : '#B9C0CA';
@@ -119,6 +123,7 @@ function MainScreen(props) {
                                                                     </div>
                                                                 );
                                                             }
+                                                            return false;
                                                         }
                                                     })}
                                                 </div>
