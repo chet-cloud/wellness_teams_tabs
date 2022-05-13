@@ -7,9 +7,6 @@ import { Container,
 import {getCoins} from './api';
 import Popup from 'reactjs-popup';
 
-// import images
-import demoAva from '../../img/demo-ava.png';
-
 function Header(props) {
     const [streaks, setStreak] = useState();
     const [open, setOpen] = useState(false);
@@ -48,27 +45,6 @@ function Header(props) {
                 <p>Have a nice day!</p></h2>
     
                 <div className='streak'>
-                    {/* {(() => {
-                        if(streaks < 3){
-                            return(
-                                <svg aria-label='sm-mus' onClick={() => setOpen(o => !o)}>
-                                    <use xlinkHref='#sm-mus'></use>
-                                </svg>
-                            )
-                        }else if(streaks > 7){
-                            return(
-                                <svg aria-label='lg-mus' onClick={() => setOpen(o => !o)}>
-                                    <use xlinkHref='#lg-mus'></use>
-                                </svg>
-                            )
-                        }else{
-                            return(
-                                <svg aria-label='med-mus' onClick={() => setOpen(o => !o)}>
-                                    <use xlinkHref='#med-mus'></use>
-                                </svg>
-                            )
-                        }
-                    })()} */}
                     <Popup open={open}
                         trigger={(() => {
                             if(streaks < 3){
@@ -92,6 +68,7 @@ function Header(props) {
                             }
                         })()}
                         on={['hover', 'focus']}
+                        position='left center'
                         className='muscle-popup'
                     >
                         <p>Grow your wellness muscle by watching <br />your daily videos.</p>
