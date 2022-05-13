@@ -12,6 +12,8 @@ import ReactPlayer from 'react-player';
 import Popup from 'reactjs-popup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { getSaved, updateHistory } from './lib/api';
+import Header from './lib/Header';
 import Footer from './lib/Footer.js';
 
 // Import scss
@@ -21,12 +23,9 @@ import "../scss/playlist.scss";
 
 // Import images
 import demoAva from '../img/demo-ava.png';
-import { getHis, getSaved, updateHistory } from './lib/api';
-import { useReducer } from 'react';
-import Header from './lib/Header';
+import welcome from '../img/welcoming-icon.png';
 
 function PlaylistScreen(props) {
-    const imgUrlBase = 'http://localhost:1337/strapi';
     const { teamsfx } = useContext(TeamsFxContext);
     const { loading, data, error } = useData(async () => {
         if (teamsfx) {
@@ -107,13 +106,19 @@ function PlaylistScreen(props) {
                                                 <Col className='col-12' key={vid.id}>
                                                     <div className='cat-box'>
                                                         <div className='sticker-box'>
-                                                            <Popup trigger={
-                                                                <button>open</button>
+                                                            <Popup trigger={vid.attributes.video.data.attributes.vid_thumb.data != null ?
+                                                                <img className='avatar' src={vid.attributes.video.data.attributes.vid_thumb.data.attributes.url} alt="video thumb" />
+                                                                : <img className='avatar' src={welcome} alt="placeholder thumb" />
                                                             } modal>
                                                                 <div className="vid-box">
-                                                                    <ReactPlayer url={vid.attributes.video.data.attributes.cdn_url} 
+                                                                    {vid.attributes.video.data.attributes.cdn_url != "" ?
+                                                                        <ReactPlayer url={vid.attributes.video.data.attributes.cdn_url} 
+                                                                        className='react-player'
+                                                                        />
+                                                                    : <ReactPlayer url={vid.attributes.video.data.attributes.url} 
                                                                     className='react-player'
                                                                     />
+                                                                    }
                                                                 </div>
                                                             </Popup>
                                                         </div>
