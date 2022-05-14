@@ -1,14 +1,14 @@
 import * as microsoftTeams from "@microsoft/teams-js";
 
-// Add text to the display in a <p> or other HTML element
-function display_element(text, elementTag) {
-    var logDiv = document.getElementById('logs');
-    var p = document.createElement(elementTag ? elementTag : "p");
-    p.innerText = text;
-    logDiv.append(p);
-    console.log("ssoDemo: " + text);
-    return p;
-}
+// // Add text to the display in a <p> or other HTML element
+// function display_element(text, elementTag) {
+//     var logDiv = document.getElementById('logs');
+//     var p = document.createElement(elementTag ? elementTag : "p");
+//     p.innerText = text;
+//     logDiv.append(p);
+//     console.log("ssoDemo: " + text);
+//     return p;
+// }
 
 const API = "https://strapiareit.azurewebsites.net/api/auth/local"
 
