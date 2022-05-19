@@ -61,9 +61,15 @@ const auth = (authURL, display) => {
     function getServerSideToken(clientSideToken) {
         return new Promise((resolve, reject) => {
             microsoftTeams.getContext((context) => {
-                callApi(API, clientSideToken).then((res) => {
+                // An example of context variable: https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/access-teams-context
+                const {userPrincipalName} = context
+                const base64Token = {
+                    token:clientSideToken,
+                    userPrincipalName:userPrincipalName
+                }
+                callApi(API, btoa(JSON.stringify(base64Token))).then((res) => {
                     return resolve(res);
-                })
+                }).catch(e=>reject(e))
             });
         });
     }
