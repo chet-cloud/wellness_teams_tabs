@@ -3,7 +3,7 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown, faMeh } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faMeh, faPause, faPlay, faExpand } from '@fortawesome/free-solid-svg-icons';
 import { getVideo, getHis, addHistory, updateHistory, checkHis, addCoin } from './lib/api';
 import { useReducer } from 'react';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
@@ -27,6 +27,7 @@ function VideoPlayer(props) {
     const [rate, setRate] = useReducer(setRating, initialState );
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(0);
+    const [playing, setPlaying] = useState(false);
     const vid_player = useRef(null);
     const userId = props.userId;
 
@@ -59,6 +60,11 @@ function VideoPlayer(props) {
 
     const handleSeekMouseUp = e => {
         vid_player.current.seekTo(parseFloat(e.target.value));
+    }
+
+    const handlePlayPause = () => {
+        setPlaying(!playing);
+        console.log(!playing);
     }
     // Handle api data fetching
     
@@ -193,20 +199,27 @@ function VideoPlayer(props) {
                         onProgress={handleProgress}
                         onEnded={handleEnd}
                         controls={false}
-                        playing={true}
+                        playing={playing}
                         ref={vid_player}
-                        light={true}
                         />
 
                         <div className='des-box'>
-                            <p><input
-                                type='range' min={0} max={0.999999} step='any'
-                                value={played}
-                                onChange={handleSeekChange}
-                                onMouseUp={handleSeekMouseUp}
-                                className="prog-bar"
-                                style={{backgroundSize: `${played * 100}% 100%`}}
-                            /></p>
+                            <p className="d-flex justify-content-center align-items-center">
+                                <button onClick={handlePlayPause} className="pp_btn">
+                                    {playing ?
+                                        <FontAwesomeIcon icon={faPause} color='#F06595' />
+                                    :   <FontAwesomeIcon icon={faPlay} color='#F06595' />
+                                    }
+                                </button>
+                                <input
+                                    type='range' min={0} max={0.999999} step='any'
+                                    value={played}
+                                    onChange={handleSeekChange}
+                                    onMouseUp={handleSeekMouseUp}
+                                    className="prog-bar"
+                                    style={{backgroundSize: `${played * 100}% 100%`}}
+                                />
+                            </p>
                             <div className="add-flex">
                                 <div className="name-box">
                                     <h4>{`${vids.attributes.category.data.attributes.name}`} 
@@ -218,7 +231,6 @@ function VideoPlayer(props) {
                                 </div>
                                 
                                 {history.map((his) => {
-                                    console.log(likeVal);
                                     return (
                                         <div className="rating" key={his.id}>
                                             <div className="icon-box">

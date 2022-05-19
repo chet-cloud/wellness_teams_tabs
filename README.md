@@ -1,3 +1,9 @@
+## adminconsent
+
+https://login.microsoftonline.com/81162fc5-b32d-49ab-8b39-5956f269f357/adminconsent?client_id=aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e
+
+https://docs.microsoft.com/en-us/answers/questions/545439/aadsts65001-the-user-or-administrator-has-not-cons.html
+
 # How to use this Teams Tab app HelloWorld app
 
 > Important: Please be advised that access tokens are stored in sessionStorage for you by default. This can make it possible for malicious code in your app (or code pasted into a console on your page) to access APIs at the same privilege level as your client application. Please ensure you only request the minimum necessary scopes from your client application, and perform any sensitive operations from server side code that your client has to authenticate with.
