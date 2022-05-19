@@ -66,6 +66,10 @@ function VideoPlayer(props) {
         setPlaying(!playing);
         console.log(!playing);
     }
+
+    const handleFullScreen = e => {
+        console.log("FullScreen");
+    }
     // Handle api data fetching
     
 
@@ -219,6 +223,9 @@ function VideoPlayer(props) {
                                     className="prog-bar"
                                     style={{backgroundSize: `${played * 100}% 100%`}}
                                 />
+                                <button onClick={handleFullScreen} className="pp_btn mar-left">
+                                    <FontAwesomeIcon icon={faExpand} color='#F06595' />
+                                </button>
                             </p>
                             <div className="add-flex">
                                 <div className="name-box">
