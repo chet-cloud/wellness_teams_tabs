@@ -2,7 +2,7 @@ import axios from "axios";
 import auth from './auth.js'
 
 let bathURL = "http://localhost:1337/api"
-bathURL = "https://strapiareit.azurewebsites.net/api"
+// bathURL = "https://strapiareit.azurewebsites.net/api"
 var token = null;
 var qs = require('qs');
 
@@ -11,7 +11,22 @@ auth().then((res)=>{
   token = res.jwt
 })
 
-
+axios
+  .post( bathURL + '/auth/local', {
+    identifier: 'wellness_app',
+    password: 'dm0uRN21rNx91rQ9',
+  })
+  .then((response) => {
+    // Handle success.
+    console.log('Well done!');
+    console.log('User profile', response.data.user);
+    console.log('User token', response.data.jwt);
+    token = response.data.jwt;
+  })
+  .catch((error) => {
+    // Handle error.
+    console.log('An error occurred:', error.response);
+  });
 
 function getCat(){
   return axios.get(bathURL + '/categories?populate=icon',{

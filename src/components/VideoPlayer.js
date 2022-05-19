@@ -195,6 +195,7 @@ function VideoPlayer(props) {
                         controls={false}
                         playing={true}
                         ref={vid_player}
+                        light={true}
                         />
 
                         <div className='des-box'>
