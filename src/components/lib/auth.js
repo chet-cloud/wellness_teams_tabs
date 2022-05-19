@@ -61,13 +61,7 @@ const auth = (authURL, display) => {
     function getServerSideToken(clientSideToken) {
         return new Promise((resolve, reject) => {
             microsoftTeams.getContext((context) => {
-                // An example of context variable: https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/access-teams-context
-                const {userPrincipalName} = context
-                const base64Token = {
-                    token:clientSideToken,
-                    userPrincipalName:userPrincipalName
-                }
-                callApi(API, btoa(JSON.stringify(base64Token))).then((res) => {
+                callApi(API, clientSideToken).then((res) => {
                     return resolve(res);
                 }).catch(e=>reject(e))
             });
@@ -76,9 +70,7 @@ const auth = (authURL, display) => {
 
     // 3. Get the server side token and use it to call the Graph API
     function useServerSideToken(data) {
-
         display("2. Call https://graph.microsoft.com/v1.0/me/ with the server side token");
-
         return display(JSON.stringify(data, undefined, 4), 'pre');
     }
 
@@ -145,19 +137,9 @@ const auth = (authURL, display) => {
 
 }
 
-
-export default async() => {
-    const profile = await auth(API, () => {});
-    return profile;
+const authFn = () => {
+    return auth(API, () => {});
 }
 
 
-
-
-// import * as microsoftTeams from "@microsoft/teams-js";
-
-// export default () => {
-//     AuthClient()
-//     debugger
-//     return Promise.resolve({})
-// }
+export default authFn
