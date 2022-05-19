@@ -9,6 +9,8 @@ import { useReducer } from 'react';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import { findDOMNode } from 'react-dom'
+import screenfull from 'screenfull';
 
 // Import images
 import DoneIcon from '../img/done-icon.png';
@@ -67,7 +69,8 @@ function VideoPlayer(props) {
         console.log(!playing);
     }
 
-    const handleFullScreen = e => {
+    const handleFullScreen = () => {
+        screenfull.request(findDOMNode(vid_player))
         console.log("FullScreen");
     }
     // Handle api data fetching
