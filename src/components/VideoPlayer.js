@@ -69,9 +69,6 @@ function VideoPlayer(props) {
         console.log(!playing);
     }
 
-    const handleFullScreen = () => {
-        console.log("FullScreen");
-    }
     // Handle api data fetching
     
 

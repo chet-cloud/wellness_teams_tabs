@@ -2,7 +2,7 @@ import axios from "axios";
 import auth from './auth.js'
 
 let bathURL = "http://localhost:1337/api"
-// bathURL = "https://strapiareit.azurewebsites.net/api"
+bathURL = "https://strapiareit.azurewebsites.net/api"
 var token = null;
 var qs = require('qs');
 
@@ -192,9 +192,9 @@ async function getVideo(userId, type = null){
                 $eq: picked_cat,
               }
             },
-            // status: {
-            //   $eq: 'approved',
-            // },
+            approved: {
+              $eq: true,
+            },
           },],
         },
         populate: ['category'],
