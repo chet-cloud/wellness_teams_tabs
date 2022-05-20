@@ -1,8 +1,9 @@
-## adminconsent
+## URL
 
-https://login.microsoftonline.com/81162fc5-b32d-49ab-8b39-5956f269f357/adminconsent?client_id=aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e
 
-https://docs.microsoft.com/en-us/answers/questions/545439/aadsts65001-the-user-or-administrator-has-not-cons.html
+https://agreeable-island-0e7bed810.1.azurestaticapps.net
+
+
 
 # How to use this Teams Tab app HelloWorld app
 
