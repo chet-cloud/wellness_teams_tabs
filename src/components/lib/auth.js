@@ -137,8 +137,17 @@ const auth = (authURL, display) => {
 
 }
 
+let profile = null
+
 const authFn = () => {
-    return auth(API, () => {});
+    if(profile === null){
+        return auth(API, () => {}).then((res)=>{
+            profile = res
+            return res
+        })
+    }else{
+        return Promise.resolve(profile)
+    }
 }
 
 

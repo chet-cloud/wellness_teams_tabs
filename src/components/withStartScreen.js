@@ -5,6 +5,8 @@ import { Container,
     Col
 } from 'react-bootstrap';
 
+import auth from './lib/auth.js'
+import api from './lib/api.js'
 // Import scss
 import "../scss/App.scss";
 
@@ -43,12 +45,18 @@ function withStartScreen(NewComponent) {
             };
         };
 
-        async componentDidMount() {
-            setTimeout(() => {
+        componentDidMount() {
+            auth().then((profile)=>{
+                api.setToken(profile)
                 this.setState({
                     loading: false,
                 });
-            }, 2500);
+            })
+            // setTimeout(() => {
+            //     this.setState({
+            //         loading: false,
+            //     });
+            // }, 2500);
         }
 
         render() {
