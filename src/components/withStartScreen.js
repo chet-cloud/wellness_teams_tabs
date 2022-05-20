@@ -6,7 +6,7 @@ import { Container,
 } from 'react-bootstrap';
 
 import auth from './lib/auth.js'
-import api from './lib/api.js'
+import {setToken} from './lib/api.js'
 // Import scss
 import "../scss/App.scss";
 
@@ -47,7 +47,7 @@ function withStartScreen(NewComponent) {
 
         componentDidMount() {
             auth().then((profile)=>{
-                api.setToken(profile)
+                setToken(profile)
                 this.setState({
                     loading: false,
                 });
