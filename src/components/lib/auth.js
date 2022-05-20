@@ -63,16 +63,14 @@ const auth = (authURL, display) => {
             microsoftTeams.getContext((context) => {
                 callApi(API, clientSideToken).then((res) => {
                     return resolve(res);
-                })
+                }).catch(e=>reject(e))
             });
         });
     }
 
     // 3. Get the server side token and use it to call the Graph API
     function useServerSideToken(data) {
-
         display("2. Call https://graph.microsoft.com/v1.0/me/ with the server side token");
-
         return display(JSON.stringify(data, undefined, 4), 'pre');
     }
 
@@ -139,19 +137,9 @@ const auth = (authURL, display) => {
 
 }
 
-
-export default async() => {
-    const profile = await auth(API, () => {});
-    return profile;
+const authFn = () => {
+    return auth(API, () => {});
 }
 
 
-
-
-// import * as microsoftTeams from "@microsoft/teams-js";
-
-// export default () => {
-//     AuthClient()
-//     debugger
-//     return Promise.resolve({})
-// }
+export default authFn
