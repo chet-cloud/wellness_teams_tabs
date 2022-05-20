@@ -8,9 +8,8 @@ import { getVideo, getHis, addHistory, updateHistory, checkHis, addCoin } from '
 import { useReducer } from 'react';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Popup from 'reactjs-popup';
-import { findDOMNode } from 'react-dom'
-import screenfull from 'screenfull';
 
 // Import images
 import DoneIcon from '../img/done-icon.png';
@@ -31,6 +30,7 @@ function VideoPlayer(props) {
     const [count, setCount] = useState(0);
     const [playing, setPlaying] = useState(false);
     const vid_player = useRef(null);
+    const handle = useFullScreenHandle();
     const userId = props.userId;
 
     // Video Player Event Handler
@@ -70,7 +70,6 @@ function VideoPlayer(props) {
     }
 
     const handleFullScreen = () => {
-        screenfull.request(findDOMNode(vid_player))
         console.log("FullScreen");
     }
     // Handle api data fetching
@@ -201,14 +200,16 @@ function VideoPlayer(props) {
             return (
                 <div>
                     <div>
-                        <ReactPlayer url={video_url}
-                        className='react-player'
-                        onProgress={handleProgress}
-                        onEnded={handleEnd}
-                        controls={false}
-                        playing={playing}
-                        ref={vid_player}
-                        />
+                        <FullScreen handle={handle}>
+                            <ReactPlayer url={video_url}
+                            className='react-player'
+                            onProgress={handleProgress}
+                            onEnded={handleEnd}
+                            controls={false}
+                            playing={playing}
+                            ref={vid_player}
+                            />
+                        </FullScreen>
 
                         <div className='des-box'>
                             <p className="d-flex justify-content-center align-items-center">
@@ -226,7 +227,7 @@ function VideoPlayer(props) {
                                     className="prog-bar"
                                     style={{backgroundSize: `${played * 100}% 100%`}}
                                 />
-                                <button onClick={handleFullScreen} className="pp_btn mar-left">
+                                <button onClick={handle.enter} className="pp_btn mar-left">
                                     <FontAwesomeIcon icon={faExpand} color='#F06595' />
                                 </button>
                             </p>
