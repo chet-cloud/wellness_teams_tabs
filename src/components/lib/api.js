@@ -271,7 +271,7 @@ function getHis(userId, vidId){
 }
 
 function checkHis(userId){
-  var today = new Date(formatDate());
+  var today = new Date();
   const query = qs.stringify({
     filters: {
       $and: [{
@@ -313,8 +313,7 @@ function formatDate(){
 }
 
 function addHistory(userId, vidId){
-  var date = formatDate();
-  var today = new Date(date);
+  var today = new Date();
   var defaultVal = null;
 
   getHis(userId, vidId).then(({data}) => {
