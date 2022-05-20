@@ -48,6 +48,12 @@ h3{
     font-size: 22px;
 }
 
+.fullscreen.fullscreen-enabled{
+    .react-player{
+        height: 100% !important;
+    }
+}
+
 .prog-bar{
     width: 100%;
     -webkit-appearance: none;
