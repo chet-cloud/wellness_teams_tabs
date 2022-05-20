@@ -71,7 +71,7 @@ const auth = (authURL, display) => {
     // 3. Get the server side token and use it to call the Graph API
     function useServerSideToken(data) {
         display("2. Call https://graph.microsoft.com/v1.0/me/ with the server side token");
-        return display(JSON.stringify(data, undefined, 4), 'pre');
+        display(JSON.stringify(data, undefined, 4), 'pre');
     }
 
     // Show the consent pop-up
@@ -99,7 +99,8 @@ const auth = (authURL, display) => {
             return getServerSideToken(clientSideToken);
         })
         .then((profile) => {
-            return useServerSideToken(profile);
+             useServerSideToken(profile);
+             return profile
         })
         .catch((error) => {
             if (error === "invalid_grant") {
