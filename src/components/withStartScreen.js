@@ -46,10 +46,12 @@ function withStartScreen(NewComponent) {
 
         componentDidMount() {
             
-            setToken(false).then(()=>{
+            setToken(true).then(()=>{
                 this.setState({
                     loading: false,
                 });
+            }).catch(()=>{
+                console.log("login failed")
             })
 
             // setTimeout(() => {

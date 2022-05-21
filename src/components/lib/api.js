@@ -1,5 +1,7 @@
 import axios from "axios";
-import auth from "./auth.js"
+import auth_teams from "./auth_teams.js"
+import auth_web from "./auth_web.js"
+import auth_checkInTeams from "./auth_checkInTeams.js"
 
 let bathURL = "http://localhost:1337/api"
 bathURL = "https://strapiareit.azurewebsites.net/api"
@@ -8,6 +10,7 @@ var qs = require('qs');
 
 const setToken = (isProduct)=>{
   if(isProduct){
+    const auth = auth_checkInTeams()?auth_teams:auth_web
     return auth().then((profile)=>{
       token = profile.jwt
     })
@@ -23,10 +26,6 @@ const setToken = (isProduct)=>{
       console.log('User token', response.data.jwt);
       token = response.data.jwt;
     })
-    .catch((error) => {
-      // Handle error.
-      console.log('An error occurred:', error.response);
-    });
   }
 }
 
