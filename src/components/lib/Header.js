@@ -4,7 +4,7 @@ import { Container,
     Col,
     Spinner,
 } from 'react-bootstrap';
-import {getCoins} from './api';
+import {getCoins, info} from './api';
 import Popup from 'reactjs-popup';
 
 function Header(props) {
@@ -41,7 +41,7 @@ function Header(props) {
         return (
             <Col className='col-12 sub-box frow'>
                 <img className='avatar' src={props.avatar} alt="User Avatar" />
-                <h2><span className='lighter'>Hello</span> {props.userName}<br/>
+                <h2><span className='lighter'>Hello</span> {info.username}<br/>
                 <p>Have a nice day!</p></h2>
     
                 <div className='streak'>

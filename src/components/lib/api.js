@@ -6,12 +6,14 @@ import auth_checkInTeams from "./auth_checkInTeams.js"
 let bathURL = "http://localhost:1337/api"
 bathURL = "https://strapiareit.azurewebsites.net/api"
 var token = null;
+var info = null;
 var qs = require('qs');
 
 const setToken = (isProduct)=>{
   if(isProduct){
     const auth = auth_checkInTeams()?auth_teams:auth_web
     return auth().then((profile)=>{
+      info = profile.user;
       token = profile.jwt
     })
   }else{
@@ -465,5 +467,5 @@ function addCoin(userId){
   });
 }
 
-export {token, formatDate};
+export {info, token, formatDate};
 export { setToken, getCat, addPref, getPref, likeCat, getVideo, getHis, addHistory, updateHistory, checkHis, getSaved, addCoin, getCoins }
