@@ -351,6 +351,8 @@ function addHistory(userId, vidId){
 }
 
 async function updateHistory(entry, liked = null, watched = null){
+  document.body.style.cursor = 'wait';
+  document.getElementsByClassName('rating')[0].style.pointerEvents = "none";
   if(watched != null){
     return await axios({
       method: 'PUT',

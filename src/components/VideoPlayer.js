@@ -24,7 +24,7 @@ function VideoPlayer(props) {
         dislike: '#B9C0CA', 
         meh: '#B9C0CA'
     };
-    const [likeVal, setLikeVal] = useState();
+    const [likeVal, setLikeVal] = useState(null);
     const [rate, setRate] = useReducer(setRating, initialState );
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(0);
@@ -94,7 +94,9 @@ function VideoPlayer(props) {
             console.log(check);
             if(check.length > 0){
                 setLoaded(1);
-                setLikeVal(data.data[0].attributes.liked);
+                if(likeVal === null){
+                    setLikeVal(data.data[0].attributes.liked);
+                }
             }
         })
     }
@@ -105,16 +107,25 @@ function VideoPlayer(props) {
                 updateHistory(history[0].id, true, null);
                 setLikeVal(true);
                 setLoaded(2);
+                setTimeout(() => {
+                    document.body.style.cursor = 'default';
+                    document.getElementsByClassName('rating')[0].style.pointerEvents = "auto";}, 1200);
                 return { ...initialState, like: '#F06595' };
             case 'dislike':
                 updateHistory(history[0].id, false, null);
                 setLikeVal(false);
                 setLoaded(2);
+                setTimeout(() => {
+                    document.body.style.cursor = 'default';
+                    document.getElementsByClassName('rating')[0].style.pointerEvents = "auto";}, 1200);
                 return { ...initialState, dislike: '#F06595' };
             case 'meh':
                 updateHistory(history[0].id, null, null);
                 setLikeVal(null);
                 setLoaded(2);
+                setTimeout(() => {
+                    document.body.style.cursor = 'default';
+                    document.getElementsByClassName('rating')[0].style.pointerEvents = "auto";}, 1200);
                 return { ...initialState, meh: '#F06595' };
             default:
                 return { ...initialState};
