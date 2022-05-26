@@ -16,7 +16,7 @@ import "../scss/App.scss";
 import withStartScreen from "./withStartScreen";
 import PlaylistScreen from "./PlaylistScreen";
 
-import {getPref} from './lib/api';
+import {getPref, info} from './lib/api';
 
 /**
  * The main app which handles the initialization and routing
@@ -24,8 +24,8 @@ import {getPref} from './lib/api';
  */
 function App() {
   const { loading, theme, themeString, teamsfx } = useTeamsFx();
-  var visited;
-  const userId = 2;
+  var visited = false;
+  const userId = info.username;
   getPref(userId).then(({data}) => {
     var check = data.data;
     if(check.length === 0){
@@ -40,7 +40,7 @@ function App() {
       <Provider theme={theme || teamsTheme} styles={{ backgroundColor: "#eeeeee" }}>
         <Router>
           <Route exact path="/">
-            {visited ? (
+            {!visited ? (
               <Redirect to="/home" />
             ) : (
               <Redirect to="/stream" />

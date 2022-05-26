@@ -1,11 +1,9 @@
 // Import Components and Plugins
 import React, { useState, useEffect } from 'react';
-import { useContext } from "react";
-import { TeamsFxContext } from "./Context";
-import { useData } from "@microsoft/teamsfx-react";
 import { Container,
     Row,
-    Col
+    Col,
+    Spinner
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +14,7 @@ import "../scss/App.scss";
 
 // Import images
 import demoAva from '../img/demo-ava.png';
-import { addPref, getCat, getPref, likeCat } from './lib/api';
+import { addPref, getCat, getPref, likeCat, info } from './lib/api';
 import { useReducer } from 'react';
 // import { initializeComponentRef } from '@uifabric/utilities';
 import Header from './lib/Header';
@@ -41,19 +39,11 @@ const reducer = (state, action) => {
 }
 
 function MainScreen(props) {
-    const { teamsfx } = useContext(TeamsFxContext);
-    const { loading, data, error } = useData(async () => {
-        if (teamsfx) {
-        const userInfo = await teamsfx.getUserInfo();
-        return userInfo;
-        }
-    });
-    const userName = (loading || error) ? "User": data.displayName;
-    const avatar = (loading || error) ? demoAva : data.photoUrl;
-    const [cats, setCats] = useState([]);
-    const [prefs, dispatch] = useReducer(reducer, []);
-    const [loaded, setLoaded] = useState(0);
-    const userId = 2;
+    const userId = info.username;
+    const userName = userId.substring(0, userId.indexOf("@"));
+    const avatar = demoAva;
+    const [cats, setCats] = useState(null);
+    const [prefs, dispatch] = useReducer(reducer, null);
 
     function updateCat(catId, liked, entry){
         dispatch({id: entry});
@@ -72,44 +62,54 @@ function MainScreen(props) {
                 var test = data.data;
                 test.forEach((cat) => {
                     addPref(userId, cat.id);
-                    loadPrefs();
                 });
             });
             _callback();
         }
 
         loadCats(() => {
-            loadPrefs();
+            setTimeout(() => loadPrefs(), 1500);
         });
-    }, [])
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId, prefs])
     
-    return (
-        <div>
-            <Container className='box mx-0 mx-md-auto'>
-                <Row>
-                    <Header userId={userId} userName={userName} avatar={avatar} />
-                    <Col className='col-12'>
-                        <h4 className='mb-3'>Categories</h4>
+    if(cats === null || prefs === null){
+        return(
+            <div>
+                <Container className='d-flex justify-content-center align-items-center'>
+                    <Row>
+                        <Col className='col-12'>
+                            <Spinner animation='border' />
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        )
+    }else{
+        console.log("prefs: " + prefs.length)
+        console.log("cats: " + cats.length)
+        console.log(prefs.length < cats.length);
+        if(prefs.length === cats.length){
+            return (
+                <div>
+                    <Container className='box mx-0 mx-md-auto'>
                         <Row>
-                            {cats.map((cat) => {
-                                if(loaded === 0){
-                                    setLoaded(1);
-                                    return false;
-                                }else{
-                                    return(
-                                        <Col className='col-12' key={cat.id}>
-                                            <div className='cat-box'>
-                                                <div className='sticker-box' style={{backgroundColor: `${cat.attributes.background}`}}>
-                                                    <img src={cat.attributes.icon.data.attributes.url} alt="Category icon"/>
-                                                </div>
-                                                <h4>{cat.attributes.name}<br />
-                                                <p>{cat.attributes.des}</p></h4>
-                                                <div>
-                                                    {prefs.map((pref) => {
-                                                        if(pref.attributes.category.data == null){
-                                                            window.location.reload(false);
-                                                            return false;
-                                                        }else{
+                            <Header userId={userId} userName={userName} avatar={avatar} />
+                            <Col className='col-12'>
+                                <h4 className='mb-3'>Categories</h4>
+                                <Row>
+                                    {cats.map((cat) => {
+                                        return(
+                                            <Col className='col-12' key={cat.id}>
+                                                <div className='cat-box'>
+                                                    <div className='sticker-box' style={{backgroundColor: `${cat.attributes.background}`}}>
+                                                        <img src={cat.attributes.icon.data.attributes.url} alt="Category icon"/>
+                                                    </div>
+                                                    <h4>{cat.attributes.name}<br />
+                                                    <p>{cat.attributes.des}</p></h4>
+                                                    <div>
+                                                        {prefs.map((pref) => {
                                                             if(pref.attributes.category.data.id === cat.id){
                                                                 var liked = pref.attributes.liked ? '#F06595' : '#B9C0CA';
                                                                 var action = pref.attributes.liked ? false : true;
@@ -122,21 +122,33 @@ function MainScreen(props) {
                                                                 );
                                                             }
                                                             return false;
-                                                        }
-                                                    })}
+                                                        })}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Col>
-                                    )
-                                }
-                            })}
+                                            </Col>
+                                        )
+                                    })}
+                                </Row>
+                            </Col>
                         </Row>
-                    </Col>
-                </Row>
-            </Container>
-            <Footer />
-        </div>
-    );
+                    </Container>
+                    <Footer />
+                </div>
+            );
+        }else{
+            return(
+                <div>
+                    <Container className='d-flex justify-content-center align-items-center'>
+                        <Row>
+                            <Col className='col-12'>
+                                <Spinner animation='border' />
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            )
+        }
+    }
 }
 
 export default MainScreen;

@@ -185,7 +185,15 @@ async function getVideo(userId, type = null){
         fav_list = data.data;
       })
       // Randomly pick a category from those that user liked (store that catId into a variable)
-      var picked_cat = fav_list[randomize(fav_list)].attributes.category.data.id;
+      var picked_cat = [];
+      if(fav_list.length === 0){
+        getCat().then(({data}) => {
+          var default_list = data.data;
+          picked_cat = default_list[randomize(default_list)].id;
+        })
+      }else{
+        picked_cat = fav_list[randomize(fav_list)].attributes.category.data.id;
+      }
 
       // Get a list of videos that's under that category (add a filter with condition: status == 'approved') (store them in an array)
       query = qs.stringify({
@@ -196,9 +204,9 @@ async function getVideo(userId, type = null){
                 $eq: picked_cat,
               }
             },
-            approved: {
-              $eq: true,
-            },
+            // approved: {
+            //   $eq: true,
+            // },
           },],
         },
         populate: ['category'],

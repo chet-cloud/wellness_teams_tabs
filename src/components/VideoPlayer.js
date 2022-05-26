@@ -142,7 +142,8 @@ function VideoPlayer(props) {
         }
 
         loadVids();
-    }, [userId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     if(typeof(vids.attributes) === 'undefined'){
         return(

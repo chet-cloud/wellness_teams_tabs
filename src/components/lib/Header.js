@@ -4,12 +4,13 @@ import { Container,
     Col,
     Spinner,
 } from 'react-bootstrap';
-import {getCoins, info} from './api';
+import {getCoins} from './api';
 import Popup from 'reactjs-popup';
 
 function Header(props) {
     const [streaks, setStreak] = useState();
     const [open, setOpen] = useState(false);
+    const userId = props.userId;
     function loadStreak(userId){
         getCoins(userId).then(({data}) => {
             var check = data.data;
@@ -22,8 +23,8 @@ function Header(props) {
     }
 
     useEffect(() => {
-        loadStreak(props.userId);
-    }, [props.userId])
+        loadStreak(userId);
+    }, [userId])
 
     if(streaks == null){
         return(
@@ -41,7 +42,7 @@ function Header(props) {
         return (
             <Col className='col-12 sub-box frow'>
                 <img className='avatar' src={props.avatar} alt="User Avatar" />
-                <h2><span className='lighter'>Hello</span> {info.username}<br/>
+                <h2><span className='lighter'>Hello</span> {props.userName}<br/>
                 <p>Have a nice day!</p></h2>
     
                 <div className='streak'>

@@ -1,8 +1,5 @@
 // Import Components and Plugins
 import React, { useState, useEffect } from 'react';
-import { useContext } from "react";
-import { TeamsFxContext } from "./Context";
-import { useData } from "@microsoft/teamsfx-react";
 import { Container,
     Row,
     Col,
@@ -12,7 +9,7 @@ import ReactPlayer from 'react-player';
 import Popup from 'reactjs-popup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { getSaved, updateHistory } from './lib/api';
+import { getSaved, updateHistory, info } from './lib/api';
 import Header from './lib/Header';
 import Footer from './lib/Footer.js';
 
@@ -26,18 +23,11 @@ import demoAva from '../img/demo-ava.png';
 import welcome from '../img/welcoming-icon.png';
 
 function PlaylistScreen(props) {
-    const { teamsfx } = useContext(TeamsFxContext);
-    const { loading, data, error } = useData(async () => {
-        if (teamsfx) {
-        const userInfo = await teamsfx.getUserInfo();
-        return userInfo;
-        }
-    });
-    const userName = (loading || error) ? "User": data.displayName;
-    const avatar = (loading || error) ? demoAva : data.photoUrl;
+    const userId = info.username;
+    const userName = userId.substring(0, userId.indexOf("@"));
+    const avatar = demoAva;
     const [vids, setVids] = useState(null);
     const [loaded, setLoaded] = useState(0);
-    const userId = 2;
 
     function loadVids(){
         getSaved(userId).then(({data}) => {
@@ -52,6 +42,8 @@ function PlaylistScreen(props) {
 
     useEffect(() => {
         loadVids();
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     

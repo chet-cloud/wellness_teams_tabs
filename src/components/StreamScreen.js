@@ -1,15 +1,12 @@
 // Import Components and Plugins
 import React from 'react';
-// import { useState } from 'react';
-import { useContext } from "react";
-import { TeamsFxContext } from "./Context";
-import { useData } from "@microsoft/teamsfx-react";
 import { Container,
     Row,
     Col
 } from 'react-bootstrap';
 import VideoPlayer from './VideoPlayer';
 import Footer from './lib/Footer.js';
+import {info} from './lib/api';
 
 // Import scss
 import "../scss/App.scss";
@@ -19,16 +16,9 @@ import demoAva from '../img/demo-ava.png';
 import Header from './lib/Header';
 
 function StreamScreen(props) {
-    const { teamsfx } = useContext(TeamsFxContext);
-    const { loading, data, error } = useData(async () => {
-        if (teamsfx) {
-        const userInfo = await teamsfx.getUserInfo();
-        return userInfo;
-        }
-    });
-    const userName = (loading || error) ? "User": data.displayName;
-    const avatar = (loading || error) ? demoAva : data.photoUrl;
-    const userId = 2;
+    const userId = info.username;
+    const userName = userId.substring(0, userId.indexOf("@"));
+    const avatar = demoAva;
 
     var rows = [];
     var numvids = 1;
