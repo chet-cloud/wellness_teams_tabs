@@ -52,7 +52,6 @@ function VideoPlayer(props) {
 
     const handleEnd = () => {
         setOpen(o => !o);
-        // ref.current.open();
         console.log("ended");
     }
 
@@ -69,6 +68,13 @@ function VideoPlayer(props) {
         console.log(!playing);
     }
 
+    const handlePause = () => {
+        setPlaying(false);
+    }
+
+    const handlePlay = () => {
+        setPlaying(true);
+    }
     // Handle api data fetching
     
 
@@ -94,7 +100,9 @@ function VideoPlayer(props) {
             console.log(check);
             if(check.length > 0){
                 setLoaded(1);
-                setLikeVal(data.data[0].attributes.liked);
+                if(likeVal === null){
+                    setLikeVal(data.data[0].attributes.liked);
+                }
             }
         })
     }
@@ -203,6 +211,8 @@ function VideoPlayer(props) {
                             className='react-player'
                             onProgress={handleProgress}
                             onEnded={handleEnd}
+                            onPause={handlePause}
+                            onPlay={handlePlay}
                             controls={false}
                             playing={playing}
                             ref={vid_player}
