@@ -19,7 +19,7 @@ import "../scss/App.scss";
 import "../scss/playlist.scss";
 
 // Import images
-import demoAva from '../img/demo-ava.png';
+import demoAva from '../img/wellness-logo.png';
 import welcome from '../img/welcoming-icon.png';
 
 function PlaylistScreen(props) {

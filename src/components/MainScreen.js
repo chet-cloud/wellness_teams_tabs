@@ -13,7 +13,7 @@ import Footer from './lib/Footer.js';
 import "../scss/App.scss";
 
 // Import images
-import demoAva from '../img/demo-ava.png';
+import demoAva from '../img/wellness-logo.png';
 import { addPref, getCat, getPref, likeCat, info } from './lib/api';
 import { useReducer } from 'react';
 // import { initializeComponentRef } from '@uifabric/utilities';

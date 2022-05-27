@@ -12,7 +12,7 @@ import {info} from './lib/api';
 import "../scss/App.scss";
 
 // Import images
-import demoAva from '../img/demo-ava.png';
+import demoAva from '../img/wellness-logo.png';
 import Header from './lib/Header';
 
 function StreamScreen(props) {

@@ -15,7 +15,7 @@ import welcome from '../img/welcoming-icon.png';
 
 function LoadingMessage() {
     return (
-        <Container className='welcoming'>
+        <Container className='welcoming d-flex justify-content-center align-items-center'>
             <Row>
                 <Col className="col-12 d-flex align-items-center flex-column">
                     <img className="logo" src={logo} alt="Logo"/>

@@ -244,7 +244,7 @@ function VideoPlayer(props) {
                                     className="prog-bar"
                                     style={{backgroundSize: `${played * 100}% 100%`}}
                                 />
-                                <button onClick={handle.enter} className="pp_btn mar-left">
+                                <button onClick={handle.enter} className="pp_btn mar-left d-none d-md-block">
                                     <FontAwesomeIcon icon={faExpand} color='#F06595' />
                                 </button>
                             </p>
