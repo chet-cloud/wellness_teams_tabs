@@ -44,6 +44,7 @@ function MainScreen(props) {
     const avatar = demoAva;
     const [cats, setCats] = useState(null);
     const [prefs, dispatch] = useReducer(reducer, null);
+    const [loading, setLoading] = useState(0);
 
     function updateCat(catId, liked, entry){
         dispatch({id: entry});
@@ -87,9 +88,12 @@ function MainScreen(props) {
             </div>
         )
     }else{
-        console.log("prefs: " + prefs.length)
-        console.log("cats: " + cats.length)
-        console.log(prefs.length < cats.length);
+        prefs.forEach((pref) => {
+            if(pref.attributes.category.data === null){
+                loadPrefs();
+                setLoading(loading.length++);
+            }
+        });
         if(prefs.length === cats.length){
             return (
                 <div>

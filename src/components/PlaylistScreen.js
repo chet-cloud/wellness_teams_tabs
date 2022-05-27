@@ -29,11 +29,7 @@ function PlaylistScreen(props) {
     const [vids, setVids] = useState(null);
     const [loaded, setLoaded] = useState(0);
 
-    function loadVids(){
-        getSaved(userId).then(({data}) => {
-            setVids(data.data);
-        });
-    }
+    
     function dislike(entry){
         console.log("Unlike");
         updateHistory(entry, false);
@@ -41,14 +37,18 @@ function PlaylistScreen(props) {
     }
 
     useEffect(() => {
+        function loadVids(){
+            getSaved(userId).then(({data}) => {
+                setVids(data.data);
+            });
+        }
         loadVids();
         
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [vids, userId])
 
     
     if(loaded === 1){
-        loadVids();
+        // loadVids();
         setLoaded(0);
     }
 
@@ -76,7 +76,7 @@ function PlaylistScreen(props) {
                                 {vids.length > 0 &&
                                     vids.map((vid) => {
                                         if(loaded === 1){
-                                            loadVids();
+                                            // loadVids();
                                             setLoaded(0);
                                         }
                                         console.log(vids);

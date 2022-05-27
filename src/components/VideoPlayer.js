@@ -110,28 +110,34 @@ function VideoPlayer(props) {
     function setRating(state, action){
         switch(action.type){
             case 'like':
+                document.body.style.cursor = 'wait';
+                document.body.style.pointerEvents = "none";
                 updateHistory(history[0].id, true, null);
                 setLikeVal(true);
                 setLoaded(2);
                 setTimeout(() => {
                     document.body.style.cursor = 'default';
-                    document.getElementsByClassName('rating')[0].style.pointerEvents = "auto";}, 1200);
+                    document.body.style.pointerEvents = "auto";}, 1200);
                 return { ...initialState, like: '#F06595' };
             case 'dislike':
+                document.body.style.cursor = 'wait';
+                document.body.style.pointerEvents = "none";
                 updateHistory(history[0].id, false, null);
                 setLikeVal(false);
                 setLoaded(2);
                 setTimeout(() => {
                     document.body.style.cursor = 'default';
-                    document.getElementsByClassName('rating')[0].style.pointerEvents = "auto";}, 1200);
+                    document.body.style.pointerEvents = "auto";}, 1200);
                 return { ...initialState, dislike: '#F06595' };
             case 'meh':
+                document.body.style.cursor = 'wait';
+                document.body.style.pointerEvents = "none";
                 updateHistory(history[0].id, null, null);
                 setLikeVal(null);
                 setLoaded(2);
                 setTimeout(() => {
                     document.body.style.cursor = 'default';
-                    document.getElementsByClassName('rating')[0].style.pointerEvents = "auto";}, 1200);
+                    document.body.style.pointerEvents = "auto";}, 1200);
                 return { ...initialState, meh: '#F06595' };
             default:
                 return { ...initialState};
