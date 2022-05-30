@@ -34,6 +34,8 @@ function PlaylistScreen(props) {
         console.log("Unlike");
         updateHistory(entry, false);
         setLoaded(1);
+        setTimeout(() => {
+            document.body.style.pointerEvents = "auto";}, 1200);
     }
 
     useEffect(() => {
@@ -72,6 +74,7 @@ function PlaylistScreen(props) {
                         <Header userId={userId} userName={userName} avatar={avatar}/>
                         <Col className='col-12'>
                             <h4 className='mb-3'>Saved Videos</h4>
+                            <p>Contained the list of videos you put a thumb up for. Click on the heart to delete them from the list.</p>
                             <Row>
                                 {vids.length > 0 &&
                                     vids.map((vid) => {
@@ -79,7 +82,6 @@ function PlaylistScreen(props) {
                                             // loadVids();
                                             setLoaded(0);
                                         }
-                                        console.log(vids);
 
                                         if(vid.attributes.video.data != null){
                                             var tags = "";
@@ -105,10 +107,14 @@ function PlaylistScreen(props) {
                                                                 <div className="vid-box">
                                                                     {vid.attributes.video.data.attributes.cdn_url !== "" ?
                                                                         <ReactPlayer url={vid.attributes.video.data.attributes.cdn_url} 
-                                                                        className='react-player'
+                                                                            className='react-player'
+                                                                            playing={true}
+                                                                            controls={true}
                                                                         />
                                                                     : <ReactPlayer url={vid.attributes.video.data.attributes.url} 
-                                                                    className='react-player'
+                                                                        className='react-player'
+                                                                        playing={true}
+                                                                        controls={true}
                                                                     />
                                                                     }
                                                                 </div>
