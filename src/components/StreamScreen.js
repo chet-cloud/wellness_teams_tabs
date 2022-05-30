@@ -37,6 +37,7 @@ function StreamScreen(props) {
                     <Header userId={userId} userName={userName} avatar={avatar}/>
                     <Col className='col-12'>
                         <h4 className='mb-3'>Video of the Day</h4>
+                        <p>Watch till the end of the video to grow your wellness muscle.</p>
                     </Col>
                 </Row>
             </Container>
