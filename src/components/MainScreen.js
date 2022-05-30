@@ -105,6 +105,7 @@ function MainScreen(props) {
                             <Header userId={userId} userName={userName} avatar={avatar} />
                             <Col className='col-12'>
                                 <h4 className='mb-3'>Categories</h4>
+                                <p>Pick a category of your interest and receive your daily video dose based off your choices. Watch your today video in the "Watch Today Video" tab and enjoy a wonderfull day.</p>
                                 <Row>
                                     {cats.map((cat) => {
                                         return(
