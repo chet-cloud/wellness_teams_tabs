@@ -15,6 +15,12 @@ const setToken = (isProduct)=>{
     return auth().then((profile)=>{
       info = profile.user;
       token = profile.jwt
+      getCat().then( ({data}) => {
+        var test = data.data;
+        test.forEach((cat) => {
+            addPref(info.username, cat.id);
+        });
+      });
     })
   }else{
     return axios.post( bathURL + '/auth/local', {
@@ -57,14 +63,17 @@ function addPref(userId, catId){
     encodeValuesOnly: true,
   });
 
+  debugger
   axios.get(bathURL + '/preferences?' + query,{
     headers: {
       Authorization:
         `Bearer ${token}`,
     },
   }).then(({data}) => {
+    debugger
     var check = data.data;
     if(check.length === 0){
+      debugger
       axios({
         method: 'POST',
         url: bathURL + '/preferences',
@@ -96,7 +105,7 @@ async function getPref(userId){
   }, {
     encodeValuesOnly: true,
   });
-
+  debugger
   return await axios.get(bathURL + '/preferences?' + query,{
     headers: {
       Authorization:
@@ -110,6 +119,7 @@ function randomize(list){
 }
 
 function likeCat(userId, catId, liked, entry){
+  debugger
   return axios({
     method: 'PUT',
     url: bathURL + '/preferences/' + entry,
@@ -176,6 +186,7 @@ async function getVideo(userId, type = null){
       }, {
         encodeValuesOnly: true,
       });
+      debugger
       await axios.get(bathURL + '/preferences?' + query,{
         headers: {
           Authorization:
@@ -351,6 +362,7 @@ function addHistory(userId, vidId){
 }
 
 async function updateHistory(entry, liked = null, watched = null){
+  document.body.style.pointerEvents = "none";
   if(watched != null){
     return await axios({
       method: 'PUT',

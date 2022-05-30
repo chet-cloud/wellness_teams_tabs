@@ -53,6 +53,8 @@ function MainScreen(props) {
     function loadPrefs(){
         getPref(userId).then(({data}) => {
             dispatch({type: 'update', initialState: data.data});
+            console.log(data.data);
+            setLoading(loading+1);
         })
     }
     
@@ -60,22 +62,23 @@ function MainScreen(props) {
         function loadCats(_callback){
             getCat().then( ({data}) => {
                 setCats(data.data);
-                var test = data.data;
-                test.forEach((cat) => {
-                    addPref(userId, cat.id);
-                });
+                // var test = data.data;
+                // test.forEach((cat) => {
+                //     addPref(userId, cat.id);
+                // });
             });
             _callback();
         }
 
         loadCats(() => {
-            setTimeout(() => loadPrefs(), 1500);
+            setTimeout(() => loadPrefs(), 2000)
         });
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userId, prefs])
+    }, [userId, loading])
     
     if(cats === null || prefs === null){
+        console.log(prefs)
         return(
             <div>
                 <Container className='d-flex justify-content-center align-items-center'>
@@ -91,7 +94,7 @@ function MainScreen(props) {
         prefs.forEach((pref) => {
             if(pref.attributes.category.data === null){
                 loadPrefs();
-                setLoading(loading.length++);
+                setLoading(loading+1);
             }
         });
         if(prefs.length === cats.length){
@@ -114,18 +117,23 @@ function MainScreen(props) {
                                                     <p>{cat.attributes.des}</p></h4>
                                                     <div>
                                                         {prefs.map((pref) => {
-                                                            if(pref.attributes.category.data.id === cat.id){
-                                                                var liked = pref.attributes.liked ? '#F06595' : '#B9C0CA';
-                                                                var action = pref.attributes.liked ? false : true;
-                                                                return (
-                                                                    <div className='heart-container' key={'sup' + cat.id}>
-                                                                        <FontAwesomeIcon icon={faHeart} color={liked} size='2x' 
-                                                                        onClick={ () => updateCat(cat.id, action, pref.id)} 
-                                                                        />
-                                                                    </div>
-                                                                );
+                                                            if(pref.attributes.category.data === null){
+                                                                window.location.reload(false);
+                                                                return false;
+                                                            }else{
+                                                                if(pref.attributes.category.data.id === cat.id){
+                                                                    var liked = pref.attributes.liked ? '#F06595' : '#B9C0CA';
+                                                                    var action = pref.attributes.liked ? false : true;
+                                                                    return (
+                                                                        <div className='heart-container' key={'sup' + cat.id}>
+                                                                            <FontAwesomeIcon icon={faHeart} color={liked} size='2x' 
+                                                                            onClick={ () => updateCat(cat.id, action, pref.id)} 
+                                                                            />
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                                return false;
                                                             }
-                                                            return false;
                                                         })}
                                                     </div>
                                                 </div>
