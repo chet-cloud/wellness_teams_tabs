@@ -241,9 +241,9 @@ function VideoPlayer(props) {
                                     className="prog-bar"
                                     style={{backgroundSize: `${played * 100}% 100%`}}
                                 />
-                                <button onClick={handle.enter} className="pp_btn mar-left d-none d-md-block">
+                                {/* <button onClick={handle.enter} className="pp_btn mar-left d-none d-md-block">
                                     <FontAwesomeIcon icon={faExpand} color='#F06595' />
-                                </button>
+                                </button> */}
                             </p>
                             <div className="add-flex">
                                 <div className="name-box">
