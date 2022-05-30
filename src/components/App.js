@@ -43,7 +43,7 @@ function App() {
             {!visited ? (
               <Redirect to="/home" />
             ) : (
-              <Redirect to="/stream" />
+              <StreamScreen />
             )}
           </Route>
           {loading ? (
