@@ -47,66 +47,70 @@ function getCat(){
   });
 }
 
-function addPref(userId, catId, liked){
-  const query = qs.stringify({
-    filters: {
-      category: {
-        id: {
-          $eq: catId,
-        }
-      },
-      userId: {
-        $eq: userId,
+function addPref(userId, catId, liked) {
+  // debugger;
+  const query = qs.stringify(
+    {
+      filters: {
+        category: {
+          id: {
+            $eq: catId,
+          },
+        },
+        userId: {
+          $eq: userId,
+        },
       },
     },
-  }, {
-    encodeValuesOnly: true,
-  });
-
-  // debugger
-  return axios.get(bathURL + '/preferences?' + query,{
-    headers: {
-      Authorization:
-        `Bearer ${token}`,
-    },
-  }).then(({data}) => {
-    // debugger
-    var check = data.data;
-    if(check.length === 0){
-      // debugger
-      return axios({
-        method: 'POST',
-        url: bathURL + '/preferences',
-        data: {
-          "data": {
-            userId: userId,
-            liked: liked,
-            category: catId,
-          }
-        },
-        headers: {
-          Authorization:
-            `Bearer ${token}`,
-        },
-      })
-    }else{
-      return axios({
-        method: 'PUT',
-        url: bathURL + '/preferences/' + check[0].id,
-        data: {
-          data: {
-            userId,
-            liked,
-            catId
-          }
-        },
-        headers: {
-          Authorization:
-            `Bearer ${token}`,
-        },
-      })
+    {
+      encodeValuesOnly: true,
     }
-  })
+  );
+
+  // debugger;
+  return axios
+    .get(bathURL + "/preferences?" + query, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(({ data }) => {
+      // debugger;
+      var check = data.data;
+      if (check.length === 0) {
+        // debugger;
+        return axios({
+          method: "POST",
+          url: bathURL + "/preferences",
+          data: {
+            data: {
+              userId: userId,
+              liked: liked,
+              category: catId,
+            },
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        // debugger;
+        return axios({
+          method: "PUT",
+          url: bathURL + "/preferences/" + check[0].id,
+          data: {
+            data: {
+              userId,
+              liked,
+              catId,
+            },
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+    });
 }
 
 async function getPref(userId){
@@ -131,32 +135,6 @@ async function getPref(userId){
 
 function randomize(list){
   return Math.floor(Math.random() * list.length);
-}
-
-function forceCreatCat(catId,userId,liked,entry){
-
-  axios.get(bathURL + '/preferences?' + qs.stringify({
-    filters: {
-      id: {
-        $eq: entry,
-      },
-    },
-    populate: ['category'],
-  }, {
-    encodeValuesOnly: true,
-  }),{
-    headers: {
-      Authorization:
-        `Bearer ${token}`,
-    },
-  }).then(({data})=>{
-      if(data.length === 0){
-        addPref(userId, catId)
-      }else{
-        likeCat(userId, catId, liked, entry)
-      }
-  })
-
 }
 
 
