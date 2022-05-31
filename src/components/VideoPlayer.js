@@ -25,13 +25,14 @@ function VideoPlayer(props) {
         meh: '#B9C0CA'
     };
     const [likeVal, setLikeVal] = useState(null);
-    const [rate, setRate] = useReducer(setRating, initialState );
+    const [rate, setRate] = useState(initialState);
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(0);
     const [playing, setPlaying] = useState(false);
     const vid_player = useRef(null);
     const handle = useFullScreenHandle();
     const userId = props.userId;
+
 
     // Video Player Event Handler
     const handleProgress = value => {
@@ -107,31 +108,36 @@ function VideoPlayer(props) {
         })
     }
 
-    function setRating(state, action){
-        switch(action.type){
+    function setRating({type}){
+        // setLoaded(0);
+        switch(type){
             case 'like':
-                updateHistory(history[0].id, true, null);
-                setLikeVal(true);
-                setLoaded(2);
-                setTimeout(() => {
-                    document.body.style.pointerEvents = "auto";}, 1200);
-                return { ...initialState, like: '#F06595' };
+                updateHistory(history[0].id, true, null).then(()=>{
+                    setLikeVal(true);
+                    // setLoaded(2);
+                    // setTimeout(() => {document.body.style.pointerEvents = "auto";}, 1200);
+                    setRate({ ...initialState, like: '#F06595' })
+                })
+                break
             case 'dislike':
-                updateHistory(history[0].id, false, null);
-                setLikeVal(false);
-                setLoaded(2);
-                setTimeout(() => {
-                    document.body.style.pointerEvents = "auto";}, 1200);
-                return { ...initialState, dislike: '#F06595' };
+                updateHistory(history[0].id, false, null).then(()=>{
+                    setLikeVal(false);
+                    // setLoaded(2);
+                    // setTimeout(() => { document.body.style.pointerEvents = "auto";}, 1200);
+                    setRate( { ...initialState, dislike: '#F06595' });
+                })
+                break
             case 'meh':
-                updateHistory(history[0].id, null, null);
-                setLikeVal(null);
-                setLoaded(2);
-                setTimeout(() => {
-                    document.body.style.pointerEvents = "auto";}, 1200);
-                return { ...initialState, meh: '#F06595' };
+                updateHistory(history[0].id, null, null).then(()=>{
+                    setLikeVal(null);
+                    // setLoaded(2);
+                    // setTimeout(() => { document.body.style.pointerEvents = "auto";}, 1200);
+                    setRate({ ...initialState, meh: '#F06595' });
+                })
+                break
             default:
-                return { ...initialState};
+                // setLoaded(2);
+                setRate({ ...initialState});
         }
     }
 
@@ -209,6 +215,8 @@ function VideoPlayer(props) {
             }else{
                 video_url = vids.attributes.cdn_url;
             }
+
+
             return (
                 <div>
                     <div>
@@ -259,13 +267,13 @@ function VideoPlayer(props) {
                                     return (
                                         <div className="rating" key={his.id}>
                                             <div className="icon-box">
-                                                <FontAwesomeIcon icon={faThumbsUp} color={(likeVal != null && likeVal)  ? rate.like = '#F06595' : rate.like} size='3x' onClick={ () => setRate({type: 'like'})} />
+                                                <FontAwesomeIcon icon={faThumbsUp} color={(likeVal != null && likeVal)  ? rate.like = '#F06595' : rate.like} size='3x' onClick={ () => setRating({type: 'like'})} />
                                             </div>
                                             <div className="icon-box">
-                                                <FontAwesomeIcon icon={faMeh} color={rate.meh} size='3x' onClick={ () => setRate({type: 'meh'})} />
+                                                <FontAwesomeIcon icon={faMeh} color={rate.meh} size='3x' onClick={ () => setRating({type: 'meh'})} />
                                             </div>
                                             <div className="icon-box">
-                                                <FontAwesomeIcon icon={faThumbsDown} color={(likeVal != null && !likeVal)  ? rate.dislike = '#F06595' : rate.dislike} size='3x' onClick={ () => setRate({type: 'dislike'})} />
+                                                <FontAwesomeIcon icon={faThumbsDown} color={(likeVal != null && !likeVal)  ? rate.dislike = '#F06595' : rate.dislike} size='3x' onClick={ () => setRating({type: 'dislike'})} />
                                             </div>
                                         </div>
                                     );

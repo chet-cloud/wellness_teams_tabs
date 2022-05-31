@@ -47,7 +47,7 @@ function getCat(){
   });
 }
 
-function addPref(userId, catId){
+function addPref(userId, catId, liked){
   const query = qs.stringify({
     filters: {
       category: {
@@ -63,24 +63,24 @@ function addPref(userId, catId){
     encodeValuesOnly: true,
   });
 
-  debugger
-  axios.get(bathURL + '/preferences?' + query,{
+  // debugger
+  return axios.get(bathURL + '/preferences?' + query,{
     headers: {
       Authorization:
         `Bearer ${token}`,
     },
   }).then(({data}) => {
-    debugger
+    // debugger
     var check = data.data;
     if(check.length === 0){
-      debugger
-      axios({
+      // debugger
+      return axios({
         method: 'POST',
         url: bathURL + '/preferences',
         data: {
           "data": {
             userId: userId,
-            liked: null,
+            liked: liked,
             category: catId,
           }
         },
@@ -89,8 +89,23 @@ function addPref(userId, catId){
             `Bearer ${token}`,
         },
       })
+    }else{
+      return axios({
+        method: 'PUT',
+        url: bathURL + '/preferences/' + check[0].id,
+        data: {
+          data: {
+            userId,
+            liked,
+            catId
+          }
+        },
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      })
     }
-    return false;
   })
 }
 
@@ -105,7 +120,7 @@ async function getPref(userId){
   }, {
     encodeValuesOnly: true,
   });
-  debugger
+  // debugger
   return await axios.get(bathURL + '/preferences?' + query,{
     headers: {
       Authorization:
@@ -118,8 +133,35 @@ function randomize(list){
   return Math.floor(Math.random() * list.length);
 }
 
+function forceCreatCat(catId,userId,liked,entry){
+
+  axios.get(bathURL + '/preferences?' + qs.stringify({
+    filters: {
+      id: {
+        $eq: entry,
+      },
+    },
+    populate: ['category'],
+  }, {
+    encodeValuesOnly: true,
+  }),{
+    headers: {
+      Authorization:
+        `Bearer ${token}`,
+    },
+  }).then(({data})=>{
+      if(data.length === 0){
+        addPref(userId, catId)
+      }else{
+        likeCat(userId, catId, liked, entry)
+      }
+  })
+
+}
+
+
 function likeCat(userId, catId, liked, entry){
-  debugger
+  // debugger
   return axios({
     method: 'PUT',
     url: bathURL + '/preferences/' + entry,
@@ -186,7 +228,7 @@ async function getVideo(userId, type = null){
       }, {
         encodeValuesOnly: true,
       });
-      debugger
+      // debugger
       await axios.get(bathURL + '/preferences?' + query,{
         headers: {
           Authorization:
@@ -361,10 +403,10 @@ function addHistory(userId, vidId){
   })
 }
 
-async function updateHistory(entry, liked = null, watched = null){
-  document.body.style.pointerEvents = "none";
+function updateHistory(entry, liked = null, watched = null){
+  //document.body.style.pointerEvents = "none";
   if(watched != null){
-    return await axios({
+    return axios({
       method: 'PUT',
       url: bathURL + '/histories/' + entry,
       data: {
@@ -378,7 +420,7 @@ async function updateHistory(entry, liked = null, watched = null){
       },
     })
   }else{
-    return await axios({
+    return axios({
       method: 'PUT',
       url: bathURL + '/histories/' + entry,
       data: {

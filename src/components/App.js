@@ -5,6 +5,7 @@ import { HashRouter as Router,
   Route, 
   // Switch 
 } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import { useTeamsFx } from "@microsoft/teamsfx-react";
 import Privacy from "./Privacy";
 import Tab from "./Tab";
@@ -24,16 +25,20 @@ import {getPref, info} from './lib/api';
  */
 function App() {
   const { loading, theme, themeString, teamsfx } = useTeamsFx();
-  var visited = false;
   const userId = info.username;
-  getPref(userId).then(({data}) => {
-    var check = data.data;
-    if(check.length === 0){
-      visited = false;
-    }else{
-      visited = true;
-    }
-  })
+  const [visited, setVisited] = useState(false);
+
+  useEffect(() => {
+    getPref(userId).then(({data}) => {
+      var check = data.data;
+      if(check.length === 0){
+        setVisited(false)
+      }else{
+        setVisited(true)
+      }
+    })
+  });
+
 
   return (
     <TeamsFxContext.Provider value={{theme, themeString, teamsfx}}>
