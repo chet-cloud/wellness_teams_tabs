@@ -63,6 +63,8 @@ function MainScreen(props) {
     getCatData().then((result) => {
       setCats(result);
     });
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   return (

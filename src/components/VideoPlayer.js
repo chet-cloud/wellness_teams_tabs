@@ -3,9 +3,8 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown, faMeh, faPause, faPlay, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faMeh, faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { getVideo, getHis, addHistory, updateHistory, checkHis, addCoin } from './lib/api';
-import { useReducer } from 'react';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
@@ -114,29 +113,22 @@ function VideoPlayer(props) {
             case 'like':
                 updateHistory(history[0].id, true, null).then(()=>{
                     setLikeVal(true);
-                    // setLoaded(2);
-                    // setTimeout(() => {document.body.style.pointerEvents = "auto";}, 1200);
                     setRate({ ...initialState, like: '#F06595' })
                 })
                 break
             case 'dislike':
                 updateHistory(history[0].id, false, null).then(()=>{
                     setLikeVal(false);
-                    // setLoaded(2);
-                    // setTimeout(() => { document.body.style.pointerEvents = "auto";}, 1200);
                     setRate( { ...initialState, dislike: '#F06595' });
                 })
                 break
             case 'meh':
                 updateHistory(history[0].id, null, null).then(()=>{
                     setLikeVal(null);
-                    // setLoaded(2);
-                    // setTimeout(() => { document.body.style.pointerEvents = "auto";}, 1200);
                     setRate({ ...initialState, meh: '#F06595' });
                 })
                 break
             default:
-                // setLoaded(2);
                 setRate({ ...initialState});
         }
     }
