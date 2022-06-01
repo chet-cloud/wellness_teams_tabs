@@ -31,7 +31,7 @@ function VideoPlayer(props) {
     const vid_player = useRef(null);
     const handle = useFullScreenHandle();
     const userId = props.userId;
-
+    var visited = true;
 
     // Video Player Event Handler
     const handleProgress = value => {
@@ -75,8 +75,16 @@ function VideoPlayer(props) {
     const handlePlay = () => {
         setPlaying(true);
     }
+
+    const handleReady = () => {
+        
+        if(visited == true){
+            vid_player.current.seekTo(0.5);
+            setPlayed(0.5);
+        }
+
+    }
     // Handle api data fetching
-    
 
     function addEntry(userId, vidId){
         console.log(vidId);
@@ -154,6 +162,7 @@ function VideoPlayer(props) {
         }
 
         loadVids();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -208,7 +217,6 @@ function VideoPlayer(props) {
                 video_url = vids.attributes.cdn_url;
             }
 
-
             return (
                 <div>
                     <div>
@@ -219,6 +227,7 @@ function VideoPlayer(props) {
                             onEnded={handleEnd}
                             onPause={handlePause}
                             onPlay={handlePlay}
+                            onReady={handleReady}
                             controls={false}
                             playing={playing}
                             ref={vid_player}

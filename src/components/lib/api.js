@@ -254,6 +254,24 @@ async function getVideo(userId, type = null){
       });
       // Pick a random video from that list then return the data list
       var picked_vid = vid_list[randomize(vid_list)].id;
+      var existed = true;
+      var his_list = null;
+
+      // Check whether the user has ever received this video
+      getHis(userId).then((list) => {
+        his_list = list.data;
+        while(existed){
+          if(
+            his_list.find((his) => {
+              return his.id === picked_vid;
+            }
+          ) !== null){
+            picked_vid = vid_list[randomize(vid_list)].id;
+          } else{
+            existed = false;
+          }
+        }
+      });
 
       query = qs.stringify({
         filters: {
@@ -277,7 +295,7 @@ async function getVideo(userId, type = null){
   }
 }
 
-function getHis(userId, vidId){
+function getHis(userId, vidId = '*'){
   const query = qs.stringify({
     filters: {
       $and: [{
