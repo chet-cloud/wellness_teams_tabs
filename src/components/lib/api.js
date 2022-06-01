@@ -333,7 +333,7 @@ function checkHis(userId){
   const query = qs.stringify({
     filters: {
       $and: [{
-        watchDate:{
+        sentDate:{
           $eq: today,
         },
         userId: {
@@ -385,7 +385,7 @@ function addHistory(userId, vidId){
             userId: userId,
             liked: defaultVal,
             watched: defaultVal,
-            watchDate: today,
+            sentDate: today,
             video: vidId,
           }
         },
