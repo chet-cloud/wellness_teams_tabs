@@ -31,7 +31,7 @@ function VideoPlayer(props) {
     const vid_player = useRef(null);
     const handle = useFullScreenHandle();
     const userId = props.userId;
-    var visited = true;
+    // var visited = true;
 
     // Video Player Event Handler
     const handleProgress = value => {
@@ -76,14 +76,14 @@ function VideoPlayer(props) {
         setPlaying(true);
     }
 
-    const handleReady = () => {
+    // const handleReady = () => {
         
-        if(visited == true){
-            vid_player.current.seekTo(0.5);
-            setPlayed(0.5);
-        }
+    //     if(visited === true){
+    //         vid_player.current.seekTo(0.5);
+    //         setPlayed(0.5);
+    //     }
 
-    }
+    // }
     // Handle api data fetching
 
     function addEntry(userId, vidId){
@@ -227,7 +227,7 @@ function VideoPlayer(props) {
                             onEnded={handleEnd}
                             onPause={handlePause}
                             onPlay={handlePlay}
-                            onReady={handleReady}
+                            // onReady={handleReady}
                             controls={false}
                             playing={playing}
                             ref={vid_player}

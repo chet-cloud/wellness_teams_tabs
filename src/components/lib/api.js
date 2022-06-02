@@ -262,6 +262,7 @@ async function getVideo(userId, type = null){
         while(!picked){
           one = vid_list[randomize(vid_list)].id;
           if(
+            // eslint-disable-next-line no-loop-func
             typeof(his_list.find((his) => {
               return his.attributes.video.data.id === one;
             })) === "undefined"
