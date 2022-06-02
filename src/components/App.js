@@ -30,7 +30,7 @@ function App() {
       <Provider theme={theme || teamsTheme} styles={{ backgroundColor: "#eeeeee" }}>
         <Router>
           <Route exact path="/"> 
-            <StreamScreen />
+            <MainScreen />
           </Route>
           {loading ? (
             <Loader style={{ margin: 100 }} />

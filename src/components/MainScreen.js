@@ -19,13 +19,14 @@ import { addPref, getCat, getPref, info } from "./lib/api";
 import Header from "./lib/Header";
 import { useHistory } from "react-router-dom";
 
+let visited = false
+
 function MainScreen(props) {
   let history = useHistory();
   const userId = info.username;
   const userName = userId.substring(0, userId.indexOf("@"));
   const avatar = demoAva;
   const [cats, setCats] = useState([]);
-  const [visited, setVisited] = useState(false);
 
   const updateCat = (catId, userId, valueToSet) => {
     addPref(userId, catId, valueToSet).then(() => {
@@ -45,25 +46,27 @@ function MainScreen(props) {
       const allCategories = category.data;
       return getPref(userId).then((preferences) => {
         const allPreferences = preferences.data;
-        return allCategories.data.map((cat) => {
-          if (
-            allPreferences.data.find((pre) => {
-              return (
-                pre.attributes.category.data.id === cat.id &&
-                pre.attributes.liked === true
-              );
-            }) != null
-          ) {
-            cat["selected"] = true;
-          }
-          return cat;
-        }).then((categories)=>{
-          if(!visited && categories.find(cat=>cat["selected"]===true)===null){
-            history.push("/home");
-            setVisited(true)
-          }
-        });
-      });
+        const result = allCategories.data.map((cat) => {
+            if (
+              allPreferences.data.find((pre) => {
+                return (
+                  pre.attributes.category.data.id === cat.id &&
+                  pre.attributes.liked === true
+                );
+              }) != null
+            ) {
+              cat["selected"] = true;
+            }
+            return cat;
+          })
+        return result
+        })
+    }).then((categories)=>{
+      if(!visited && categories.find(cat=>cat["selected"]===true)!==null){
+        history.push("/stream");
+        visited = true
+      }
+      return categories
     });
   };
 
