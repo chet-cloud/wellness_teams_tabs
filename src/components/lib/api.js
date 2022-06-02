@@ -253,26 +253,26 @@ async function getVideo(userId, type = null){
         vid_list = data.data;
       });
       // Pick a random video from that list then return the data list
-      var picked_vid = vid_list[randomize(vid_list)].id;
-      var existed = true;
-      var his_list = null;
-
+      var picked_vid = "";
       // Check whether the user has ever received this video
-      getHis(userId).then((list) => {
-        his_list = list.data;
-        while(existed){
+      await getHis(userId).then(({data}) => {
+        var his_list = data.data;
+        var picked = false;
+        var one = "";
+        while(!picked){
+          one = vid_list[randomize(vid_list)].id;
           if(
-            his_list.find((his) => {
-              return his.id === picked_vid;
-            }
-          ) !== null){
-            picked_vid = vid_list[randomize(vid_list)].id;
-          } else{
-            existed = false;
+            typeof(his_list.find((his) => {
+              return his.attributes.video.data.id === one;
+            })) === "undefined"
+          ) {
+            picked = true;
+            picked_vid = one;
           }
         }
+        picked_vid = one;
       });
-
+      
       query = qs.stringify({
         filters: {
           id: {
@@ -295,37 +295,65 @@ async function getVideo(userId, type = null){
   }
 }
 
-function getHis(userId, vidId = '*'){
-  const query = qs.stringify({
-    filters: {
-      $and: [{
-        video:{
-          id:{
-            $eq: vidId,
+function getHis(userId, vidId = null){
+  var query = "";
+  switch(vidId){
+    case null:
+      query = qs.stringify({
+        filters: {
+          userId: {
+            $eq: userId,
           },
         },
-        userId: {
-          $eq: userId,
+        pagination: {
+          limit: 1,
         },
-      },],
-    },
-    pagination: {
-      limit: 1,
-    },
-    populate: [
-      'video',
-      'tags',
-    ],
-  }, {
-    encodeValuesOnly: true,
-  });
-
-  return axios.get(bathURL + '/histories?' + query,{
-    headers: {
-      Authorization:
-        `Bearer ${token}`,
-    },
-  });
+        populate: [
+          'video',
+          'tags',
+        ],
+      }, {
+        encodeValuesOnly: true,
+      });
+    
+      return axios.get(bathURL + '/histories?' + query,{
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      });
+    default:
+      query = qs.stringify({
+        filters: {
+          $and: [{
+            video:{
+              id:{
+                $eq: vidId,
+              },
+            },
+            userId: {
+              $eq: userId,
+            },
+          },],
+        },
+        pagination: {
+          limit: 1,
+        },
+        populate: [
+          'video',
+          'tags',
+        ],
+      }, {
+        encodeValuesOnly: true,
+      });
+    
+      return axios.get(bathURL + '/histories?' + query,{
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      });
+  }
 }
 
 function checkHis(userId){
@@ -333,7 +361,7 @@ function checkHis(userId){
   const query = qs.stringify({
     filters: {
       $and: [{
-        sentDate:{
+        watchDate:{
           $eq: today,
         },
         userId: {
@@ -374,6 +402,8 @@ function addHistory(userId, vidId){
   var today = new Date();
   var defaultVal = null;
 
+  console.log(today);
+
   getHis(userId, vidId).then(({data}) => {
     var check = data.data;
     if(check.length === 0){
@@ -385,7 +415,7 @@ function addHistory(userId, vidId){
             userId: userId,
             liked: defaultVal,
             watched: defaultVal,
-            sentDate: today,
+            watchDate: today,
             video: vidId,
           }
         },
