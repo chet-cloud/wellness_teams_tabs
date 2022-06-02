@@ -17,12 +17,15 @@ import "../scss/App.scss";
 import demoAva from "../img/wellness-logo.png";
 import { addPref, getCat, getPref, info } from "./lib/api";
 import Header from "./lib/Header";
+import { useHistory } from "react-router-dom";
 
 function MainScreen(props) {
+  let history = useHistory();
   const userId = info.username;
   const userName = userId.substring(0, userId.indexOf("@"));
   const avatar = demoAva;
   const [cats, setCats] = useState([]);
+  const [visited, setVisited] = useState(false);
 
   const updateCat = (catId, userId, valueToSet) => {
     addPref(userId, catId, valueToSet).then(() => {
@@ -54,6 +57,11 @@ function MainScreen(props) {
             cat["selected"] = true;
           }
           return cat;
+        }).then((categories)=>{
+          if(!visited && categories.find(cat=>cat["selected"]===true)===null){
+            history.push("/home");
+            setVisited(true)
+          }
         });
       });
     });

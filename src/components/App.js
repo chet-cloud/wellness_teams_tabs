@@ -17,7 +17,6 @@ import "../scss/App.scss";
 import withStartScreen from "./withStartScreen";
 import PlaylistScreen from "./PlaylistScreen";
 
-import {getPref, info} from './lib/api';
 
 /**
  * The main app which handles the initialization and routing
@@ -25,31 +24,13 @@ import {getPref, info} from './lib/api';
  */
 function App() {
   const { loading, theme, themeString, teamsfx } = useTeamsFx();
-  const userId = info.username;
-  const [visited, setVisited] = useState(false);
-
-  useEffect(() => {
-    getPref(userId).then(({data}) => {
-      var check = data.data;
-      if(check.length === 0){
-        setVisited(false)
-      }else{
-        setVisited(true)
-      }
-    })
-  });
-
 
   return (
     <TeamsFxContext.Provider value={{theme, themeString, teamsfx}}>
       <Provider theme={theme || teamsTheme} styles={{ backgroundColor: "#eeeeee" }}>
         <Router>
-          <Route exact path="/">
-            {!visited ? (
-              <Redirect to="/home" />
-            ) : (
-              <StreamScreen />
-            )}
+          <Route exact path="/"> 
+            <StreamScreen />
           </Route>
           {loading ? (
             <Loader style={{ margin: 100 }} />
