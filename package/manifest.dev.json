@@ -1,0 +1,54 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.11",
+    "version": "1.0.0",
+    "id": "eab35574-187b-474f-b767-8f8f48526584",
+    "packageName": "artisreit.com.teams.wellness.tab",
+    "developer": {
+        "name": "artisreit",
+        "websiteUrl": "https://dev.artisreit.net/",
+        "privacyUrl": "https://dev.artisreit.net/privacy",
+        "termsOfUseUrl": "https://dev.artisreit.net/termsofuse"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "Wellness",
+        "full": "Health and Wellness"
+    },
+    "description": {
+        "short": "wellness for artisreit",
+        "full": "wellness for artisreit"
+    },
+    "accentColor": "#F5F5F5",
+    "staticTabs": [
+        {
+            "entityId": "auth",
+            "name": "wellness",
+            "contentUrl": "https://dev.artisreit.net/index.html",
+            "websiteUrl": "https://dev.artisreit.net/",
+            "scopes": [
+                "personal"
+            ]
+        },
+        {
+            "entityId": "about",
+            "scopes": [
+                "personal"
+            ]
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "dev.artisreit.net"
+    ],
+    "webApplicationInfo": {
+        "id": "aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e",
+        "resource": "api://dev.artisreit.net/aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e"
+    }
+}

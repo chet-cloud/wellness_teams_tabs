@@ -1,0 +1,53 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.11",
+    "version": "1.0.0",
+    "id": "eab35574-187b-474f-b767-8f8f48526584",
+    "packageName": "artisreit.com.teams.wellness.tab",
+    "developer": {
+        "name": "artisreit",
+        "websiteUrl": "https://agreeable-island-0e7bed810.1.azurestaticapps.net/",
+        "privacyUrl": "https://agreeable-island-0e7bed810.1.azurestaticapps.net/privacy",
+        "termsOfUseUrl": "https://agreeable-island-0e7bed810.1.azurestaticapps.net/termsofuse"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "Wellness",
+        "full": "Health and Wellness"
+    },
+    "description": {
+        "short": "wellness for artisreit",
+        "full": "wellness for artisreit"
+    },
+    "accentColor": "#F5F5F5",
+    "staticTabs": [{
+            "entityId": "auth",
+            "name": "wellness",
+            "contentUrl": "https://agreeable-island-0e7bed810.1.azurestaticapps.net/index.html",
+            "websiteUrl": "https://agreeable-island-0e7bed810.1.azurestaticapps.net/",
+            "scopes": [
+                "personal"
+            ]
+        },
+        {
+            "entityId": "about",
+            "scopes": [
+                "personal"
+            ]
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "dev.artisreit.net"
+    ],
+    "webApplicationInfo": {
+        "id": "aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e",
+        "resource": "api://dev.artisreit.net/aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e"
+    }
+}
