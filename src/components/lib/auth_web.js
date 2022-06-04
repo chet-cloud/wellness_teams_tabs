@@ -7,8 +7,8 @@ const AuthClient = ()=>{
     // const ENTER_WEB_API_CLIENT_ID = "aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e"
     const TENANT_INFO = "81162fc5-b32d-49ab-8b39-5956f269f357"
     const CLIENT_ID = "aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e"
-    const API = "https://strapiareit.azurewebsites.net/api/auth/local"
-    //const API = "http://localhost:1337/api/auth/local"
+    let API = "https://strapiareit.azurewebsites.net/api/auth/local"
+    //API = "http://localhost:1337/api/auth/local"
     const SCOPES = [`api://dev.artisreit.net/aae5fddf-5f97-4bfe-ba2a-81b474e2cb5e`]
 
     /**

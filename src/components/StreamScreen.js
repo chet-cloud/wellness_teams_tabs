@@ -1,13 +1,14 @@
 // Import Components and Plugins
-import React from 'react';
+import React ,{useEffect} from 'react';
 import { Container,
     Row,
-    Col
+    Col,
 } from 'react-bootstrap';
 import VideoPlayer from './VideoPlayer';
 import Footer from './lib/Footer.js';
 import {info} from './lib/api';
-
+import {needGo} from './lib/visitCheck';
+import { useHistory } from "react-router-dom";
 // Import scss
 import "../scss/App.scss";
 
@@ -16,6 +17,7 @@ import demoAva from '../img/wellness-logo.png';
 import Header from './lib/Header';
 
 function StreamScreen(props) {
+    let history = useHistory();
     const userId = info.username;
     const userName = userId.substring(0, userId.indexOf("@"));
     const avatar = demoAva;
@@ -29,6 +31,12 @@ function StreamScreen(props) {
             </div>
             );
     }
+
+    useEffect(() => {
+        needGo().then((go)=>{
+            if(go) history.push("/home") 
+        })
+    });
 
     return (
         <div>

@@ -15,20 +15,19 @@ import "../scss/App.scss";
 
 // Import images
 import demoAva from "../img/wellness-logo.png";
-import { addPref, getCat, getPref, info } from "./lib/api";
+import { addPref, info } from "./lib/api";
 import Header from "./lib/Header";
-import { useHistory } from "react-router-dom";
+import {getCategoryData,removeCategoryData} from "./lib/visitCheck";
 
-let visited = false
 
 function MainScreen(props) {
-  let history = useHistory();
   const userId = info.username;
   const userName = userId.substring(0, userId.indexOf("@"));
   const avatar = demoAva;
   const [cats, setCats] = useState([]);
 
   const updateCat = (catId, userId, valueToSet) => {
+    removeCategoryData()
     addPref(userId, catId, valueToSet).then(() => {
       setCats(
         cats.map((v) => {
@@ -41,41 +40,10 @@ function MainScreen(props) {
     });
   };
 
-  const getCatData = () => {
-    return getCat().then((category) => {
-      const allCategories = category.data;
-      return getPref(userId).then((preferences) => {
-        const allPreferences = preferences.data;
-        const result = allCategories.data.map((cat) => {
-            if (
-              allPreferences.data.find((pre) => {
-                return (
-                  pre.attributes.category.data.id === cat.id &&
-                  pre.attributes.liked === true
-                );
-              }) != null
-            ) {
-              cat["selected"] = true;
-            }
-            return cat;
-          })
-        return result
-        })
-    }).then((categories)=>{
-      if(!visited && categories.find(cat=>cat["selected"]===true)!==null){
-        history.push("/stream");
-        visited = true
-      }
-      return categories
-    });
-  };
-
   useEffect(() => {
-    getCatData().then((result) => {
-      setCats(result);
+    getCategoryData().then((result) => {
+      setCats(result)
     });
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   return (

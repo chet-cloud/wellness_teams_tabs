@@ -27,7 +27,7 @@ function VideoPlayer(props) {
     const [rate, setRate] = useState(initialState);
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(0);
-    const [playing, setPlaying] = useState(false);
+    const [playing, setPlaying] = useState(true);
     const vid_player = useRef(null);
     const handle = useFullScreenHandle();
     const userId = props.userId;

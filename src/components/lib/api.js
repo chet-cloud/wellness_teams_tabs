@@ -556,5 +556,6 @@ function addCoin(userId){
   });
 }
 
+
 export {info, token, formatDate};
 export { setToken, getCat, addPref, getPref, likeCat, getVideo, getHis, addHistory, updateHistory, checkHis, getSaved, addCoin, getCoins }
