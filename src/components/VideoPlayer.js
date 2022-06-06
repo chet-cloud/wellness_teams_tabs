@@ -214,7 +214,9 @@ function VideoPlayer(props) {
             if(vids.attributes.cdn_url === ""){
                 video_url = vids.attributes.url;
             }else{
-                video_url = vids.attributes.cdn_url;
+                var base = vids.attributes.cdn_url;
+                var updated = base.toString().replace("arwebstore.blob.core.windows.net", "artiswebcdn.azureedge.net");
+                video_url = updated;
             }
 
             return (

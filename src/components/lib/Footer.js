@@ -24,7 +24,7 @@ function Footer(props) {
                                 <use xlinkHref='#film'></use>
                             </svg>
                         </div>
-                        Watch Today Video
+                        Watch Today's Video
                     </Link>
                     <Link to={`/list`} className='link'>
                         <div className='icon-box'>
