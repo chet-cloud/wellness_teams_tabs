@@ -36,7 +36,8 @@
     },
     "scripts": {
         "start": "PORT=8080 react-scripts start",
-        "build": "CI='' react-scripts build"
+        "build": "CI='' react-scripts build",
+        "develop": "react-scripts start"
     },
     "eslintConfig": {
         "extends": [
