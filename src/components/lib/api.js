@@ -9,18 +9,19 @@ var token = null;
 var info = null;
 var qs = require('qs');
 
-const setToken = (isProduct)=>{
+const setToken = ()=>{
+  const isProduct = ( window.location.href.match("localhost") === null )
   if(isProduct){
     const auth = auth_checkInTeams()?auth_teams:auth_web
     return auth().then((profile)=>{
       info = profile.user;
       token = profile.jwt
-      getCat().then( ({data}) => {
-        var test = data.data;
-        test.forEach((cat) => {
-            addPref(info.username, cat.id);
-        });
-      });
+      // getCat().then( ({data}) => {
+      //   var test = data.data;
+      //   test.forEach((cat) => {
+      //       addPref(info.username, cat.id);
+      //   });
+      // });
     })
   }else{
     return axios.post( bathURL + '/auth/local', {
@@ -33,6 +34,7 @@ const setToken = (isProduct)=>{
       console.log('User profile', response.data.user);
       console.log('User token', response.data.jwt);
       token = response.data.jwt;
+      info = response.data.user;
     })
   }
 }
