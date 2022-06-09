@@ -8,7 +8,7 @@ import VideoPlayer from './VideoPlayer';
 import Footer from './lib/Footer.js';
 import {info} from './lib/api';
 import {needGo} from './lib/visitCheck';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // Import scss
 import "../scss/App.scss";
 
@@ -17,7 +17,7 @@ import demoAva from '../img/wellness-logo.png';
 import Header from './lib/Header';
 
 function StreamScreen(props) {
-    let history = useHistory();
+    let navigate  = useNavigate();
     const userId = info.username;
     const userName = userId.substring(0, userId.indexOf("@"));
     const avatar = demoAva;
@@ -34,7 +34,7 @@ function StreamScreen(props) {
 
     useEffect(() => {
         needGo().then((go)=>{
-            if(go) history.push("/home") 
+            if(go) navigate("/home") 
         })
     });
 

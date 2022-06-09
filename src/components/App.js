@@ -1,7 +1,9 @@
 // https://fluentsite.z22.web.core.windows.net/quick-start
 import { Provider, teamsTheme, Loader } from "@fluentui/react-northstar";
-import { HashRouter as Router, 
-  Route, 
+import { 
+  BrowserRouter as Router,
+  Routes,
+  Route
   // Switch 
 } from "react-router-dom";
 import React from 'react';
@@ -16,7 +18,6 @@ import "../scss/App.scss";
 import withStartScreen from "./withStartScreen";
 import PlaylistScreen from "./PlaylistScreen";
 
-
 /**
  * The main app which handles the initialization and routing
  * of the app.
@@ -24,31 +25,27 @@ import PlaylistScreen from "./PlaylistScreen";
 function App() {
   const { loading, theme, themeString, teamsfx } = useTeamsFx();
 
+  if(loading){
+    return <Loader style={{ margin: 100 }} />
+  }
+
   return (
     <TeamsFxContext.Provider value={{theme, themeString, teamsfx}}>
       <Provider theme={theme || teamsTheme} styles={{ backgroundColor: "#eeeeee" }}>
         <Router>
-          <Route exact path="/"> 
-            <StreamScreen />
-          </Route>
-          {loading ? (
-            <Loader style={{ margin: 100 }} />
-          ) : (
-            <>
-              <Route exact path="/privacy" component={Privacy} />
-              <Route exact path="/tab" component={Tab} />
-              <Route exact path="/config" component={TabConfig} />
-
-
-              {/* Customize path */}
-              <Route path="/home" exact component={MainScreen} />
-              <Route path="/stream" component={StreamScreen} />
-              <Route path="/list" component={PlaylistScreen} />
-            </>
-          )}
+          <Routes>
+            <Route exact path="/" element={<StreamScreen />} /> 
+            <Route exact path="/privacy" element={<Privacy />} />
+            <Route exact path="/tab" element={<Tab />} />
+            <Route exact path="/config" element={<TabConfig />} />
+            {/* Customize path */}
+            <Route path="/home" exact element={<MainScreen />} />
+            <Route path="/stream" element={<StreamScreen />} />
+            <Route path="/list" element={<PlaylistScreen />} />
+          </Routes>
         </Router>
       </Provider>
-      </TeamsFxContext.Provider>
+    </TeamsFxContext.Provider>
   );
 }
 
