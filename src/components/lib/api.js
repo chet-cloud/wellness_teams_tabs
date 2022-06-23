@@ -559,5 +559,18 @@ function addCoin(userId){
 }
 
 
+function getEverydayRecommendVideoId(username) {
+  const resource = "videos"
+  return client.get(`${bathURL}/${resource}/getEverydayRecommendVideoId?username=${username}`, {
+      headers: {
+          'accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+      },
+  }).catch((e) => {
+      console.log(`request ${path}${resource} error: ${e}`)
+  })
+}
+
+
 export {info, token, formatDate};
 export { setToken, getCat, addPref, getPref, likeCat, getVideo, getHis, addHistory, updateHistory, checkHis, getSaved, addCoin, getCoins }
