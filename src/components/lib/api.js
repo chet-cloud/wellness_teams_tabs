@@ -561,13 +561,13 @@ function addCoin(userId){
 
 function getEverydayRecommendVideoId(username) {
   const resource = "videos"
-  return client.get(`${bathURL}/${resource}/getEverydayRecommendVideoId?username=${username}`, {
+  return axios.get(`${bathURL}/${resource}/getEverydayRecommendVideoId?username=${username}`, {
       headers: {
           'accept': 'application/json',
           'Authorization': `Bearer ${token}`,
       },
   }).catch((e) => {
-      console.log(`request ${path}${resource} error: ${e}`)
+      console.log(`request ${bathURL}${resource} error: ${e}`)
   })
 }
 
