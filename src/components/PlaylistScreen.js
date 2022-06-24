@@ -40,20 +40,11 @@ function PlaylistScreen(props) {
     }
 
     useEffect(() => {
-        // function loadVids(){
-            getSaved(userId).then(({data}) => {
-                setVids(data.data);
-            });
-        // }
-        // loadVids();
+        getSaved(userId).then(({data}) => {
+            setVids(data.data);
+        });
         
     }, [userId])
-
-    
-    if(loaded === 1){
-        // loadVids();
-        setLoaded(0);
-    }
 
     if(vids === null){
         return(
@@ -80,6 +71,9 @@ function PlaylistScreen(props) {
                                 {vids.length > 0 &&
                                     vids.map((vid) => {
                                         if(loaded === 1){
+                                            getSaved(userId).then(({data}) => {
+                                                setVids(data.data);
+                                            });
                                             setLoaded(0);
                                         }
 
