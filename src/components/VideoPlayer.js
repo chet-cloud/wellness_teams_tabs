@@ -38,12 +38,10 @@ function VideoPlayer(props) {
         setPlayed(value.played);
         if(value.played > 0.75){
             if(count === 0){
-                console.log('watched 75%');
                 // Check if the history already watched
                 if(!history[0].attributes.watched){
                     updateHistory(history[0].id, null, true);
                     addCoin(props.userId);
-                    console.log("updated");
                 }
                 setCount(1);
             }
@@ -52,7 +50,6 @@ function VideoPlayer(props) {
 
     const handleEnd = () => {
         setOpen(o => !o);
-        console.log("ended");
     }
 
     const handleSeekChange = e => {
@@ -65,7 +62,6 @@ function VideoPlayer(props) {
 
     const handlePlayPause = () => {
         setPlaying(!playing);
-        console.log(!playing);
     }
 
     const handlePause = () => {
@@ -87,14 +83,11 @@ function VideoPlayer(props) {
     // Handle api data fetching
 
     function addEntry(userId, vidId){
-        console.log(vidId);
         getHis(userId, vidId).then(({data}) => {
             var check = data.data;
-            console.log(data.data);
             if(check.length === 0){
                 addHistory(userId, vidId);
                 setLoaded(0);
-                console.log('added');
             }else{
                 setHistory(data.data);
             }
@@ -105,7 +98,6 @@ function VideoPlayer(props) {
         getHis(userId, vidId).then(({data}) => {
             setHistory(data.data);
             var check = data.data;
-            console.log(check);
             if(check.length > 0){
                 setLoaded(1);
                 if(likeVal === null){
@@ -147,13 +139,11 @@ function VideoPlayer(props) {
                 var check = data.data;
                 if(check.length > 0){
                     getVideo(userId, 'visited').then(({data}) => {
-                        console.log(data.data);
                         setVids(data.data[0]);
                     });
                 }else{
                     getVideo(userId).then(({data}) => {
                         setVids(data.data[0]);
-                        console.log(data.data);
                         var check = data.data[0];
                         addEntry(userId, check.id);
                     });
@@ -181,7 +171,6 @@ function VideoPlayer(props) {
     }else{
         if(loaded === 0){
             loadHis(props.userId, vids.id);
-            console.log(history);
             return(
                 <div>
                     <Container className='d-flex justify-content-center align-items-center'>
@@ -196,7 +185,6 @@ function VideoPlayer(props) {
         }else{
             if(loaded === 2){
                 setTimeout(() => loadHis(userId, vids.id), 2000);
-                console.log(likeVal);
             }
             var tags = "";
             if (vids.attributes.tags.data != null) {

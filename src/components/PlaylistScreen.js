@@ -34,7 +34,9 @@ function PlaylistScreen(props) {
         console.log("Unlike");
         updateHistory(entry, false);
         setLoaded(1);
-        // setTimeout(() => {document.body.style.pointerEvents = "auto";}, 1200);
+        getSaved(userId).then(({data}) => {
+            setVids(data.data);
+        });
     }
 
     useEffect(() => {
@@ -78,7 +80,6 @@ function PlaylistScreen(props) {
                                 {vids.length > 0 &&
                                     vids.map((vid) => {
                                         if(loaded === 1){
-                                        //     // loadVids();
                                             setLoaded(0);
                                         }
 
